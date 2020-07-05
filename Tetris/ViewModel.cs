@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -11,9 +12,34 @@ namespace Tetris
     public class ViewModel : INotifyPropertyChanged
     {
         /// <summary>
+        /// Handles cases where a property is changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Maps key inputs to colours to fill the rectangle with.
+        /// </summary>
+        public Dictionary<Key, string> KeyColourMap = new Dictionary<Key, string>
+        {
+            { Key.W, "Blue" },
+            { Key.A, "Red" },
+            { Key.S, "Yellow" },
+            { Key.D, "Green" }
+        };
+
+        /// <summary>
         /// Basic constructor for ViewModel.
         /// </summary>
-        public ViewModel() { }
+        /// <param name="Parent">The parent view to access named elements.</param>
+        public ViewModel(MainWindow Parent)
+        {
+            Arena = new Grid(20, 10, Parent.MyCanvas);
+        }
+
+        /// <summary>
+        /// The grid of rectangles serving as the playable arena.
+        /// </summary>
+        public Grid Arena { get; set; }
 
         /// <summary>
         /// Internal value for the output message - assists the property.
@@ -50,11 +76,6 @@ namespace Tetris
         }
 
         /// <summary>
-        /// Handles cases where a property is changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
         /// Event handler for the KeyDown event.
         /// </summary>
         /// <param name="sender">The object raising the event.</param>
@@ -62,6 +83,7 @@ namespace Tetris
         public void KeyDown(object sender, KeyEventArgs e)
         {
             Output = "Key (" + e.Key.ToString() + ") Down";
+            Arena.FillCell(0, 0, KeyColourMap.GetValueOrDefault(e.Key) ?? "Black");
         }
 
         /// <summary>

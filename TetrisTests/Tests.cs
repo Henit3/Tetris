@@ -1,9 +1,11 @@
 using Moq;
-using Tetris;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using Tetris;
 
 namespace TetrisTests
 {
@@ -11,6 +13,7 @@ namespace TetrisTests
     {
         private MainWindow MWindow;
         private ViewModel VModel;
+        private readonly BrushConverter ColourConvertor = new BrushConverter();
 
         [SetUp]
         public void Setup()
@@ -27,19 +30,23 @@ namespace TetrisTests
                 0,
                 key));
             Assert.AreEqual(VModel.Output, "Key (" + key.ToString() + ") Down");
+            Assert.AreEqual(VModel.Arena.Cells[0][0].Fill,
+                (Brush) ColourConvertor.ConvertFromString(
+                    VModel.KeyColourMap.GetValueOrDefault(key) ?? "Black"));
         }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestNoKeyPressed()
         {
             Assert.AreEqual(VModel.Output, "Key () Down");
+            Assert.AreEqual(VModel.Arena.Cells[0][0].Fill, Brushes.Transparent);
         }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestMultipleKeyPresses()
         {
             // Keys to test key press for
-            Key[] keys = { Key.A, Key.Space, Key.NumPad0, Key.D0 };
+            Key[] keys = { Key.W, Key.A, Key.S, Key.D, Key.Space, Key.NumPad0, Key.D0 };
             foreach (Key key in keys)
             {
                 TestKeyPress(key);
