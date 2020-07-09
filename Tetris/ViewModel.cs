@@ -34,6 +34,7 @@ namespace Tetris
         public ViewModel(MainWindow Parent)
         {
             Arena = new Grid(20, 10, Parent.MyCanvas);
+            Session = new Game(Arena);
         }
 
         /// <summary>
@@ -41,49 +42,57 @@ namespace Tetris
         /// </summary>
         public Grid Arena { get; set; }
 
-        /// <summary>
-        /// Internal value for the output message - assists the property.
-        /// </summary>
-        private string _output = "Key () Down";
-        /// <summary>
-        /// Property for the output message - fires OnPropertyChanged() on set.
-        /// </summary>
-        public string Output
-        {
-            get { return _output; }
-            set
-            {
-                _output = value;
-                OnPropertyChanged("Output");
-            }
-        }
+        public Game Session { get; set; }
 
         /// <summary>
         /// Internal value indicating if output is enabled - assists the property.
         /// </summary>
-        private bool _outEnabled = true;
+        private bool _isActive = true;
         /// <summary>
         /// Property indicating if output is enabled - fires OnPropertyChanged() on set.
         /// </summary>
-        public bool OutEnabled
+        public bool IsActive
         {
-            get { return _outEnabled; }
+            get { return _isActive; }
             set
             {
-                _outEnabled = value;
-                OnPropertyChanged("OutEnabled");
+                _isActive = value;
+                OnPropertyChanged("IsActive");
             }
         }
 
         /// <summary>
-        /// Event handler for the KeyDown event.
+        /// Event handler for the KeyDown event - logic contained in the KeyDown function.
         /// </summary>
         /// <param name="sender">The object raising the event.</param>
         /// <param name="e">The event arguments provided.</param>
-        public void KeyDown(object sender, KeyEventArgs e)
+        /// <see cref="KeyDown(Key)"/>
+        public void KeyDownHandler(object sender, KeyEventArgs e)
         {
-            Output = "Key (" + e.Key.ToString() + ") Down";
-            Arena.FillCell(0, 0, KeyColourMap.GetValueOrDefault(e.Key) ?? "Black");
+            KeyDown(e.Key);
+        }
+
+        /// <summary>
+        /// Logic to handle the KeyDown event using the key.
+        /// </summary>
+        /// <remarks>
+        /// This is separate from the event handler to allow tests to easily mimic key input.
+        /// </remarks>
+        /// <param name="key">The key that had been pressed.</param>
+        public void KeyDown(Key key)
+        {
+            switch (key)
+            {
+                case Key.Enter:
+                    Session.GameLoop();
+                    break;
+                case Key.Left:
+                    Session.RotatePieceCCW();
+                    break;
+                case Key.Right:
+                    Session.RotatePieceCW();
+                    break;
+            }
         }
 
         /// <summary>
@@ -91,9 +100,9 @@ namespace Tetris
         /// </summary>
         /// <param name="sender">The object raising the event.</param>
         /// <param name="e">The event arguments provided.</param>
-        public void LostFocus(object sender, EventArgs e)
+        public void LostFocusHandler(object sender, EventArgs e)
         {
-            OutEnabled = false;
+            IsActive = false;
         }
 
         /// <summary>
@@ -101,9 +110,9 @@ namespace Tetris
         /// </summary>
         /// <param name="sender">The object raising the event.</param>
         /// <param name="e">The event arguments provided.</param>
-        public void GotFocus(object sender, EventArgs e)
+        public void GotFocusHandler(object sender, EventArgs e)
         {
-            OutEnabled = true;
+            IsActive = true;
         }
 
         /// <summary>

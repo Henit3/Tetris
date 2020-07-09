@@ -1,10 +1,7 @@
-using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using Tetris;
 
 namespace TetrisTests
@@ -13,7 +10,6 @@ namespace TetrisTests
     {
         private MainWindow MWindow;
         private ViewModel VModel;
-        private readonly BrushConverter ColourConvertor = new BrushConverter();
 
         [SetUp]
         public void Setup()
@@ -22,47 +18,76 @@ namespace TetrisTests
             VModel = (ViewModel)MWindow.DataContext;
         }
 
-        private void TestKeyPress(Key key)
-        {
-            VModel.KeyDown(null, new KeyEventArgs(
-                Keyboard.PrimaryDevice,
-                new Mock<PresentationSource>().Object,
-                0,
-                key));
-            Assert.AreEqual(VModel.Output, "Key (" + key.ToString() + ") Down");
-            Assert.AreEqual(VModel.Arena.Cells[0][0].Fill,
-                (Brush) ColourConvertor.ConvertFromString(
-                    VModel.KeyColourMap.GetValueOrDefault(key) ?? "Black"));
-        }
-
         [Test, Apartment(ApartmentState.STA)]
-        public void TestNoKeyPressed()
+        public void TestBagGeneration()
         {
-            Assert.AreEqual(VModel.Output, "Key () Down");
-            Assert.AreEqual(VModel.Arena.Cells[0][0].Fill, Brushes.Transparent);
-        }
-
-        [Test, Apartment(ApartmentState.STA)]
-        public void TestMultipleKeyPresses()
-        {
-            // Keys to test key press for
-            Key[] keys = { Key.W, Key.A, Key.S, Key.D, Key.Space, Key.NumPad0, Key.D0 };
-            foreach (Key key in keys)
+            HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
+            for (int i = 0; i < 7; i++)
             {
-                TestKeyPress(key);
+                VModel.KeyDown(Key.Enter);
+                pieces.Add(VModel.Session.CurrentPiece);
             }
+            Assert.AreEqual(pieces.Count, 7);
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestPieceRotation()
+        {
+            HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
+            do
+            {
+                VModel.KeyDown(Key.Enter);
+                Tetrimino piece = VModel.Session.CurrentPiece;
+                if (pieces.Contains(VModel.Session.CurrentPiece))
+                {
+                    continue;
+                }
+                if (piece.Type != 'O' && piece.Type != 'I')
+                {
+                    bool[][,] states = new bool[4][,];
+                    states[0] = piece.CurrentState;
+                    int stateNo = 1;
+                    // Get states during clockwise rotation
+                    for (; stateNo < 4; stateNo++)
+                    {
+                        VModel.KeyDown(Key.Right);
+                        states[stateNo] = piece.CurrentState;
+                    }
+                    // Check states during counterclockwise rotation
+                    for (stateNo = 3; stateNo >= 0; stateNo--)
+                    {
+                        Assert.AreEqual(states[stateNo], piece.CurrentState);
+                        VModel.KeyDown(Key.Left);
+                    }
+                }
+                pieces.Add(piece);
+            } while (pieces.Count < 7);
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestPieceRotationReset()
+        {
+            VModel.KeyDown(Key.Enter);
+            Tetrimino referencePiece = VModel.Session.CurrentPiece;
+            VModel.KeyDown(Key.Left);
+            bool[,] rotatedState = referencePiece.CurrentState;
+            do
+            {
+                VModel.KeyDown(Key.Enter);
+            } while (referencePiece.Type == VModel.Session.CurrentPiece.Type);
+            Assert.AreNotEqual(rotatedState, VModel.Session.CurrentPiece.CurrentState);
         }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestWindowInFocus()
         {
             // Defaults to being enabled
-            Assert.True(VModel.OutEnabled);
+            Assert.True(VModel.IsActive);
 
             // Behaviour when put into focus
             MWindow.Show();
             Assert.True(MWindow.IsKeyboardFocused);
-            Assert.True(VModel.OutEnabled);
+            Assert.True(VModel.IsActive);
         }
 
         [Test, Apartment(ApartmentState.STA)]
@@ -71,12 +96,12 @@ namespace TetrisTests
             // Behaviour when put into focus
             MWindow.Show();
             Assert.True(MWindow.IsKeyboardFocused);
-            Assert.True(VModel.OutEnabled);
+            Assert.True(VModel.IsActive);
 
             // Behaviour when put out of focus
             MWindow.Hide();
             Assert.False(MWindow.IsKeyboardFocused);
-            Assert.False(VModel.OutEnabled);
+            Assert.False(VModel.IsActive);
         }
     }
 }

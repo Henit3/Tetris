@@ -15,9 +15,9 @@ namespace Tetris
         private const int SIZE = 20;
 
         /// <summary>
-        /// Allows conversion from string to media brush types.
+        /// The brush colour to be used when a cell is empty.
         /// </summary>
-        private static readonly BrushConverter ColourConvertor = new BrushConverter();
+        public static readonly Brush DEFAULT_FILL = Brushes.LightSlateGray;
 
         /// <summary>
         /// Number of columns in the grid.
@@ -53,9 +53,9 @@ namespace Tetris
                 {
                     Cells[row][col] = new Rectangle()
                     {
-                        Width = SIZE,
-                        Height = SIZE,
-                        Fill = Brushes.Transparent,
+                        Width = SIZE - 1,
+                        Height = SIZE - 1,
+                        Fill = DEFAULT_FILL,
                         Stroke = Brushes.Black,
                         StrokeThickness = 0,
                     };
@@ -65,17 +65,6 @@ namespace Tetris
                     Canvas.SetLeft(Cells[row][col], SIZE * col);
                 }
             }
-        }
-
-        /// <summary>
-        /// Assists the process of filling a cell by converting a string colour to the brush type.
-        /// </summary>
-        /// <param name="row">The row the cell is on.</param>
-        /// <param name="col">The column the cell is on.</param>
-        /// <param name="colour">The colour to fill the cell with.</param>
-        public void FillCell(int row, int col, string colour)
-        {
-            Cells[row][col].Fill = (Brush) ColourConvertor.ConvertFromString(colour);
         }
     }
 }
