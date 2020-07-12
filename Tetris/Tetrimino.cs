@@ -21,140 +21,157 @@ namespace Tetris
         static Tetrimino()
         {
             /*Vector[,] empty = new Vector[4, 4];*/
-            bool[][,] states = new bool[4][,];
-            for (int i = 0; i < states.Length; i++)
+            new Tetrimino('O', Brushes.Yellow/*, empty*/, new Point[][]
             {
-                states[i] = new bool[4, 4];
-            }
-            new Tetrimino('O', Brushes.Yellow/*, empty*/, new bool[][,]
-            {
-                new bool[2, 2] {
-                    { true, true },
-                    { true, true }
+                new Point[4] {
+                    new Point(0, 0),
+                    new Point(0, -1),
+                    new Point(1, 0),
+                    new Point(1, -1)
                 }
             }, new Vector(1, 0));
-            new Tetrimino('I', Brushes.Cyan/*, empty*/, new bool[][,]
+            new Tetrimino('I', Brushes.Cyan/*, empty*/, new Point[][]
             {
-                new bool[,] {
-                    { false, false, false, false},
-                    { true, true, true, true },
-                    { false, false, false, false },
-                    { false, false, false, false}
-                }, new bool[,]  {
-                    { false, false, true, false},
-                    { false, false, true, false },
-                    { false, false, true, false },
-                    { false, false, true, false}
-                }, new bool[,]  {
-                    { false, false, false, false},
-                    { false, false, false, false },
-                    { true, true, true, true },
-                    { false, false, false, false}
-                }, new bool[,]  {
-                    { false, true, false, false},
-                    { false, true, false, false },
-                    { false, true, false, false },
-                    { false, true, false, false}
+                new Point[4] {
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(2, -1),
+                    new Point(3, -1)
+                }, new Point[4] {
+                    new Point(2, 0),
+                    new Point(2, -1),
+                    new Point(2, -2),
+                    new Point(2, -3)
+                }, new Point[4] {
+                    new Point(0, -2),
+                    new Point(1, -2),
+                    new Point(2, -2),
+                    new Point(3, -2)
+                }, new Point[4] {
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(1, -3)
                 }
             }, new Vector(0, 1));
-            new Tetrimino('L', Brushes.Orange/*, empty*/, new bool[][,]
+            new Tetrimino('L', Brushes.Orange/*, empty*/, new Point[][]
             {
-                new bool[3, 3] {
-                    { false, false, true },
-                    { true, true, true },
-                    { false, false, false }
-                }, new bool[3, 3] {
-                    { false, true, false },
-                    { false, true, false },
-                    { false, true, true }
-                }, new bool[3, 3] {
-                    { false, false, false },
-                    { true, true, true },
-                    { true, false, false }
-                }, new bool[3, 3] {
-                    { true, true, false },
-                    { false, true, false },
-                    { false, true, false }
+                new Point[4] { // L on its left
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(2, 0),
+                    new Point(2, -1)
+                }, new Point[4] { // L upright
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -2)
+                }, new Point[4] { // L on its right
+                    new Point(0, -1),
+                    new Point(0, -2),
+                    new Point(1, -1),
+                    new Point(2, -1)
+                }, new Point[4] { // L upside down
+                    new Point(0, 0),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2)
                 }
             });
-            new Tetrimino('J', Brushes.Blue/*, empty*/, new bool[][,]
+            new Tetrimino('J', Brushes.Blue/*, empty*/, new Point[][]
             {
-                new bool[3, 3] {
-                    { true, false, false },
-                    { true, true, true },
-                    { false, false, false }
-                }, new bool[3, 3] {
-                    { false, true, true },
-                    { false, true, false },
-                    { false, true, false }
-                }, new bool[3, 3] {
-                    { false, false, false },
-                    { true, true, true },
-                    { false, false, true }
-                }, new bool[3, 3] {
-                    { false, true, false },
-                    { false, true, false },
-                    { true, true, false }
+                new Point[4] { // J on its right
+                    new Point(0, 0),
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(2, -1)
+                }, new Point[4] { // J upside down
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, 0)
+                }, new Point[4] { // J on its left
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(2, -1),
+                    new Point(2, -2)
+                }, new Point[4] { // J upright
+                    new Point(0, -2),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2)
                 }
             });
-            new Tetrimino('T', Brushes.Magenta/*, empty*/, new bool[][,]
+            new Tetrimino('T', Brushes.Magenta/*, empty*/, new Point[][]
             {
-                new bool[3, 3] {
-                    { false, true, false },
-                    { true, true, true },
-                    { false, false, false }
-                }, new bool[3, 3] {
-                    { false, true, false },
-                    { false, true, true },
-                    { false, true, false }
-                }, new bool[3, 3] {
-                    { false, false, false },
-                    { true, true, true },
-                    { false, true, false }
-                }, new bool[3, 3] {
-                    { false, true, false },
-                    { true, true, false },
-                    { false, true, false }
+                new Point[4] { // T pointing up
+                    new Point(0, -1),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(2, -1)
+                }, new Point[4] { // T pointing right
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -1)
+                }, new Point[4] { // T pointing down
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -1)
+                }, new Point[4] { // T pointing left
+                    new Point(0, -1),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2)
                 }
             });
-            new Tetrimino('S', Brushes.Lime/*, empty*/, new bool[][,]
+            new Tetrimino('S', Brushes.Lime/*, empty*/, new Point[][]
             {
-                new bool[3, 3] {
-                    { false, true, true },
-                    { true, true, false },
-                    { false, false, false }
-                }, new bool[3, 3] {
-                    { false, true, false },
-                    { false, true, true },
-                    { false, false, true }
-                }, new bool[3, 3] {
-                    { false, false, false },
-                    { false, true, true },
-                    { true, true, false }
-                }, new bool[3, 3] {
-                    { true, false, false },
-                    { true, true, false },
-                    { false, true, false }
+                new Point[4] { // S on top
+                    new Point(0, -1),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(2, 0)
+                }, new Point[4] { // S on right
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(2, -1),
+                    new Point(2, -2)
+                }, new Point[4] { // S on bottom
+                    new Point(0, -2),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -1)
+                }, new Point[4] { // S on right
+                    new Point(0, 0),
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(1, -2)
                 }
             });
-            new Tetrimino('Z', Brushes.Red/*, empty*/, new bool[][,]
+            new Tetrimino('Z', Brushes.Red/*, empty*/, new Point[][]
             {
-                new bool[3, 3] {
-                    { true, true, false },
-                    { false, true, true },
-                    { false, false, false }
-                }, new bool[3, 3] {
-                    { false, false, true },
-                    { false, true, true },
-                    { false, true, false }
-                }, new bool[3, 3] {
-                    { false, false, false },
-                    { true, true, false },
-                    { false, true, true }
-                }, new bool[3, 3] {
-                    { false, true, false },
-                    { true, true, false },
-                    { true, false, false }
+                new Point[4] { // Z on top
+                    new Point(0, 0),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(2, -1)
+                }, new Point[4] { // Z on right
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, 0),
+                    new Point(2, -1)
+                }, new Point[4] { // Z on bottom
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -2)
+                }, new Point[4] { // Z on left
+                    new Point(0, -1),
+                    new Point(0, -2),
+                    new Point(1, 0),
+                    new Point(1, -1)
                 }
             });
         }
@@ -177,10 +194,11 @@ namespace Tetris
         /// A vector applied to correct the spawn position.
         /// </summary>
         private readonly Vector? shiftSpawn;
+
         /// <summary>
         /// Contains all the states a Tetrimino can have in each of its rotations.
         /// </summary>
-        private readonly bool[][,] states;
+        private readonly Point[][] states;
 
         /// <summary>
         /// Used to get the current state from the array of states above.
@@ -189,7 +207,7 @@ namespace Tetris
         /// <summary>
         /// Property for the current state in use by the Tetrimino.
         /// </summary>
-        public bool[,] CurrentState
+        public Point[] CurrentState
         {
             get { return states[currentStateNo]; }
         }
@@ -204,7 +222,7 @@ namespace Tetris
         /// <remarks>
         /// Only called in the static constructor, with existing Tetriminos obtained using dictionary.
         /// </remarks>
-        public Tetrimino(char letter, Brush colour, /*Vector[,] _offsets,*/ bool[][,] _states,
+        public Tetrimino(char letter, Brush colour, /*Vector[,] _offsets,*/ Point[][] _states,
             Vector? _shiftSpawn = null)
         {
             Type = letter;
@@ -227,6 +245,10 @@ namespace Tetris
         public bool Spawn(Point spawnpoint)
         {
             Position = spawnpoint;
+            if (shiftSpawn != null) // BAD, only need on spawn
+            {
+                Position += (Vector) shiftSpawn;
+            }
             currentStateNo = 0;
             return true;
         }
@@ -243,7 +265,7 @@ namespace Tetris
         }
 
         /// <summary>
-        /// Gets an array of points describing the spaces the Tetrimino occupies.
+        /// Gets the array of points describing the spaces the Tetrimino occupies.
         /// </summary>
         /// <param name="rows">The number of rows in the grid to be drawn on.</param>
         /// <param name="cols">The number of rows in the grid to be drawn on.</param>
@@ -251,28 +273,15 @@ namespace Tetris
         public Point[] GetPoints(int rows, int cols)
         {
             Point[] points = new Point[4];
-            int counter = 0;
-            Vector topLeftOffset = new Vector(Position.Value.X, Position.Value.Y);
-            if (shiftSpawn != null)
-            {
-                topLeftOffset += (Vector)shiftSpawn;
-            }
+            Vector positionOffset = new Vector(Position.Value.X, Position.Value.Y);
 
-            for (int i = 0; i < CurrentState.GetLength(0); i++)
+            for (int i = 0; i < CurrentState.Length; i++)
             {
-                for (int j = 0; j < CurrentState.GetLength(1); j++)
+                points[i] = CurrentState[i] + positionOffset;
+                if (points[i].X >= cols || points[i].Y >= rows
+                    || points[i].X < 0 || points[i].Y < 0)
                 {
-                    if (CurrentState[i, j])
-                    {
-                        Point p = new Point(j, -i);
-                        points[counter] = p + topLeftOffset;
-                        if (points[counter].X >= cols || points[counter].Y >= rows
-                            || points[counter].X < 0 || points[counter].Y < 0)
-                        {
-                            return null;
-                        }
-                        counter += 1;
-                    }
+                    return null;
                 }
             }
             return points;

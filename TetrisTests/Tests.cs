@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using Tetris;
 
@@ -44,7 +45,7 @@ namespace TetrisTests
                 }
                 if (piece.Type != 'O' && piece.Type != 'I')
                 {
-                    bool[][,] states = new bool[4][,];
+                    Point[][] states = new Point[4][];
                     states[0] = piece.CurrentState;
                     int stateNo = 1;
                     // Get states during clockwise rotation
@@ -70,7 +71,7 @@ namespace TetrisTests
             VModel.KeyDown(Key.Enter);
             Tetrimino referencePiece = VModel.Session.CurrentPiece;
             VModel.KeyDown(Key.Left);
-            bool[,] rotatedState = referencePiece.CurrentState;
+            Point[] rotatedState = referencePiece.CurrentState;
             do
             {
                 VModel.KeyDown(Key.Enter);
