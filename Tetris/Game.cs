@@ -9,7 +9,6 @@ namespace Tetris
     /// </summary>
     public class Game
     {
-
         /*public int Points { get; set; }
         public int Lines { get; set; }
         public int Pieces { get; set; }*/
@@ -21,11 +20,11 @@ namespace Tetris
         /// <summary>
         /// The grid to be used while placing and moving pieces.
         /// </summary>
-        private readonly Grid Arena;
+        private readonly Grid arena;
         /// <summary>
         /// The queue of pieces to be placed next.
         /// </summary>
-        private readonly Queue<Tetrimino> PieceQueue = new Queue<Tetrimino>();
+        private readonly Queue<Tetrimino> pieceQueue = new Queue<Tetrimino>();
         /// <summary>
         /// A random generator to assist with generating the pieces to be spawned.
         /// </summary>
@@ -35,7 +34,14 @@ namespace Tetris
         /// The points where the last piece was rendered, so that it can be unrendered.
         /// </summary>
         private Point[] lastLocation;
-        /*private bool hasLost;*/
+        /// <summary>
+        /// Whether the game has ended due to no more possible moves.
+        /// </summary>
+        private bool hasLost;
+        /// <summary>
+        /// The number of times an unsuccessful fall has been attempted, used to lock a piece.
+        /// </summary>
+        private int groundCounter = 0;
 
         /// <summary>
         /// A property for the current active piece that is being controlled.
@@ -48,9 +54,8 @@ namespace Tetris
         /// <param name="arena">The grid to be used for the game session.</param>
         public Game(Grid arena)
         {
-            Arena = arena;
+            this.arena = arena;
         }
-
 
 #nullable enable
         /// <summary>
@@ -65,7 +70,7 @@ namespace Tetris
         public Game(Grid arena, Point? spawn = null, Queue<Tetrimino>? preQueue = null)
         {
 #nullable disable
-            Arena = arena;
+            this.arena = arena;
             if (spawn == null)
             {
                 spawn = new Point((arena.Cols / 2) - 2, arena.Rows - 1);
@@ -75,17 +80,25 @@ namespace Tetris
             {
                 preQueue = new Queue<Tetrimino>();
             }
-            PieceQueue = (Queue<Tetrimino>)preQueue;
+            pieceQueue = (Queue<Tetrimino>)preQueue;
         }
 
-        /*public void Start()
+        /// <summary>
+        /// Starts the game session, resetting all associated variables.
+        /// </summary>
+        public void Start()
         {
-            Points = 0;
+            /*Points = 0;
             Lines = 0;
-            Pieces = 0;
+            Pieces = 0;*/
+            arena.Reset();
+            CurrentPiece = null;
+            lastLocation = null;
+            pieceQueue.Clear();
             hasLost = false;
+
             GameLoop();
-        }*/
+        }
 
         /// <summary>
         /// Contains the game loop logic that will be repeatedly executed.
@@ -95,17 +108,50 @@ namespace Tetris
         /// </remarks>
         public void GameLoop()
         {
+            if (hasLost)
+            {
+                return;
+            }
             /*while (!hasLost)*/
             {
-                if (PieceQueue.Count == 0)
+                if (!DropAndLock())
+                {
+                    return;
+                }
+                if (pieceQueue.Count == 0)
                 {
                     GenerateBag();
                 }
 
                 CurrentPiece = SpawnPiece();
-
-                // TODO: Piece Logic for falling, control and checking if it is to be set
             }
+        }
+
+        /// <summary>
+        /// Applies gravity to a piece and determines whether the piece should be locked.
+        /// </summary>
+        /// <returns>
+        /// Whether a new piece is required to be spawned.
+        /// </returns>
+        public bool DropAndLock()
+        {
+            // True if action required - there is no piece or the piece has been set
+            if (CurrentPiece == null)
+            {
+                return true;
+            }
+            if (CurrentPiece.Fall(arena) == null)
+            {
+                groundCounter++;
+                if (groundCounter > 3)
+                {
+                    groundCounter = 0;
+                    lastLocation = null;
+                    return true;
+                }
+            }
+            RenderPiece(CurrentPiece);
+            return false;
         }
 
         /// <summary>
@@ -136,7 +182,7 @@ namespace Tetris
             {
                 return;
             }
-            if (CurrentPiece.Rotate(rotation, Arena, lastLocation))
+            if (CurrentPiece.Rotate(rotation, arena))
             {
                 RenderPiece(CurrentPiece);
             }
@@ -148,8 +194,12 @@ namespace Tetris
         /// <returns>The next Tetrimino piece that was spawned.</returns>
         private Tetrimino SpawnPiece()
         {
-            Tetrimino piece = PieceQueue.Dequeue();
-            piece.Spawn(Arena, spawnpoint);
+            Tetrimino piece = pieceQueue.Dequeue();
+            if (!piece.Spawn(arena, spawnpoint))
+            {
+                hasLost = true;
+                return null;
+            }
             RenderPiece(piece);
             return piece;
         }
@@ -173,7 +223,7 @@ namespace Tetris
             UnrenderLast();
             foreach (Point point in points)
             {
-                Arena.Cells[(int)point.Y][(int)point.X].Fill = piece.Colour;
+                arena.Cells[(int)point.Y][(int)point.X].Fill = piece.Colour;
             }
             lastLocation = points;
             return true;
@@ -190,7 +240,7 @@ namespace Tetris
             }
             foreach (Point point in lastLocation)
             {
-                Arena.Cells[(int)point.Y][(int)point.X].Fill = Grid.DEFAULT_FILL;
+                arena.Cells[(int)point.Y][(int)point.X].Fill = Grid.DefaultFill;
             }
         }
 
@@ -204,7 +254,7 @@ namespace Tetris
             while (bag.Count != 0)
             {
                 randomNumber = randomGenerator.Next(0, bag.Count);
-                PieceQueue.Enqueue(bag[randomNumber]);
+                pieceQueue.Enqueue(bag[randomNumber]);
                 bag.RemoveAt(randomNumber);
             }
         }

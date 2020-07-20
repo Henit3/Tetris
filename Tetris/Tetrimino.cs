@@ -17,6 +17,11 @@ namespace Tetris
         public static Dictionary<char, Tetrimino> Types = new Dictionary<char, Tetrimino>();
 
         /// <summary>
+        /// A unit vector in the down direction used to assist piece falling.
+        /// </summary>
+        private static readonly Vector gravity = new Vector(0, -1);
+
+        /// <summary>
         /// Static constructor to initialise each of the 7 Tetrimino types.
         /// </summary>
         static Tetrimino()
@@ -328,7 +333,7 @@ namespace Tetris
         /// <remarks>
         /// Currently only returns true.
         /// </remarks>
-        public bool Spawn(Grid Arena, Point spawnpoint)
+        public bool Spawn(Grid arena, Point spawnpoint)
         {
             Position = spawnpoint;
             if (shiftSpawn != null)
@@ -336,7 +341,11 @@ namespace Tetris
                 Position += (Vector) shiftSpawn;
             }
             currentStateNo = 0;
-            CurrentOccupied = GetPoints(Arena);
+            CurrentOccupied = ApplyPositionOffset(arena);
+            if (IsBlocked(arena, CurrentOccupied))
+            {
+                return false;
+            }
             return true;
         }
 
@@ -344,8 +353,12 @@ namespace Tetris
         /// Rotates the current active piece in a clockwise direction, handling rendering on the grid.
         /// </summary>
         /// <param name="rotation">The number of clockwise right angled rotations to make.</param>
-        public bool Rotate(int rotation, Grid Arena, Point[] lastLocation)
+        /// <param name="arena">The Grid to rotate the Tetrimino in.</param>
+        public bool Rotate(int rotation, Grid arena)
         {
+            // TODO:
+            // When using rotation to go up, increase a rotationDelayCounter
+            // After a certain point, use it to stop that
             Vector positionOffset = new Vector(Position.Value.X, Position.Value.Y);
 
             int lastStateNo = currentStateNo;
@@ -358,24 +371,13 @@ namespace Tetris
                 // Apply offset and position, fail if out of bounds of the arena
                 // srcOffset - destOffset is the translation
                 Vector totalOffset = positionOffset + offset[currentStateNo] - offset[lastStateNo];
-                Point[] points = ApplyOffset(Arena, totalOffset);
+                Point[] points = ApplyOffset(arena, totalOffset);
                 if (points == null)
                 {
                     continue;
                 }
 
-                bool blocked = false;
-                for (int i = 0; i < points.Length; i++)
-                {
-                    // Fail conditions due to the piece being blocked by existing garbage
-                    if (Arena.Cells[(int)points[i].Y][(int)points[i].X].Fill != Grid.DEFAULT_FILL
-                        && !lastLocation.Contains(points[i]))
-                    {
-                        blocked = true;
-                        break;
-                    }
-                }
-                if (blocked)
+                if (IsBlocked(arena, points))
                 {
                     continue;
                 }
@@ -392,29 +394,72 @@ namespace Tetris
         }
 
         /// <summary>
+        /// Checks if the proposed new location is blocked in the Grid it is in.
+        /// </summary>
+        /// <param name="arena">The Grid the Tetrimino is in.</param>
+        /// <param name="points">The proposed new location as a set of points.</param>
+        /// <returns>
+        /// Whether the new location is blocked by other pieces.
+        /// </returns>
+        private bool IsBlocked(Grid arena, Point[] points)
+        {
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (arena.Cells[(int)points[i].Y][(int)points[i].X].Fill != Grid.DefaultFill)
+                {
+                    if (CurrentOccupied == null || !CurrentOccupied.Contains(points[i]))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Gets the array of points describing the spaces the Tetrimino occupies.
         /// </summary>
         /// <param name="rows">The number of rows in the grid to be drawn on.</param>
         /// <param name="cols">The number of rows in the grid to be drawn on.</param>
         /// <returns>An array of points occupied by the Tetrimino.</returns>
-        public Point[] GetPoints(Grid Arena)
+        public Point[] ApplyPositionOffset(Grid arena)
         {
-            return ApplyOffset(Arena, new Vector(Position.Value.X, Position.Value.Y));
+            return ApplyOffset(arena, new Vector(Position.Value.X, Position.Value.Y));
+        }
+
+        /// <summary>
+        /// Applies gravity and makes the piece fall by a cell, checking to see if it is blocked.
+        /// </summary>
+        /// <param name="arena">The Grid to move the Tetrimino in.</param>
+        /// <returns>
+        /// The new location as a set of points or null if unsuccessful.
+        /// </returns>
+        public Point[] Fall(Grid arena)
+        {
+            Point[] points = ApplyOffset(arena, new Vector(Position.Value.X, Position.Value.Y - 1));
+            // If out of bounds or blocked by the drop of one cell
+            if (points == null || IsBlocked(arena, points))
+            {
+                return null;
+            }
+            CurrentOccupied = points;
+            Position += gravity;
+            return points;
         }
 
         /// <summary>
         /// Applies a vector offset to the current state of the Tetrimino.
         /// </summary>
-        /// <param name="Arena">The Grid the piece is being handled in.</param>
+        /// <param name="arena">The Grid the piece is being handled in.</param>
         /// <param name="offset">The vector offset to be applied.</param>
         /// <returns>The resulting points of the Tetrimino after applying the offset.</returns>
-        private Point[] ApplyOffset(Grid Arena, Vector offset)
+        private Point[] ApplyOffset(Grid arena, Vector offset)
         {
             Point[] points = new Point[4];
             for (int i = 0; i < CurrentState.Length; i++)
             {
                 points[i] = CurrentState[i] + offset;
-                if (points[i].X >= Arena.Cols || points[i].Y >= Arena.Rows
+                if (points[i].X >= arena.Cols || points[i].Y >= arena.Rows
                     || points[i].X < 0 || points[i].Y < 0)
                 {
                     return null;

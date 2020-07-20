@@ -30,10 +30,10 @@ namespace Tetris
         /// <summary>
         /// Basic constructor for ViewModel.
         /// </summary>
-        /// <param name="Parent">The parent view to access named elements.</param>
-        public ViewModel(MainWindow Parent)
+        /// <param name="parent">The parent view to access named elements.</param>
+        public ViewModel(MainWindow parent)
         {
-            Arena = new Grid(20, 10, Parent.MyCanvas);
+            Arena = new Grid(20, 10, parent.MyCanvas);
             Session = new Game(Arena);
         }
 
@@ -47,16 +47,16 @@ namespace Tetris
         /// <summary>
         /// Internal value indicating if output is enabled - assists the property.
         /// </summary>
-        private bool _isActive = true;
+        private bool isActive = true;
         /// <summary>
         /// Property indicating if output is enabled - fires OnPropertyChanged() on set.
         /// </summary>
         public bool IsActive
         {
-            get { return _isActive; }
+            get { return isActive; }
             set
             {
-                _isActive = value;
+                isActive = value;
                 OnPropertyChanged("IsActive");
             }
         }
@@ -84,6 +84,9 @@ namespace Tetris
             switch (key)
             {
                 case Key.Enter:
+                    Session.Start();
+                    break;
+                case Key.Space:
                     Session.GameLoop();
                     break;
                 case Key.Left:

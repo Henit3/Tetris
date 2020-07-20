@@ -12,12 +12,12 @@ namespace Tetris
         /// <summary>
         /// The size of individual cells.
         /// </summary>
-        private const int SIZE = 20;
+        private const int Size = 20;
 
         /// <summary>
         /// The brush colour to be used when a cell is empty.
         /// </summary>
-        public static readonly Brush DEFAULT_FILL = Brushes.LightSlateGray;
+        public static readonly Brush DefaultFill = Brushes.LightSlateGray;
 
         /// <summary>
         /// Number of columns in the grid.
@@ -53,16 +53,30 @@ namespace Tetris
                 {
                     Cells[row][col] = new Rectangle()
                     {
-                        Width = SIZE - 1,
-                        Height = SIZE - 1,
-                        Fill = DEFAULT_FILL,
+                        Width = Size - 1,
+                        Height = Size - 1,
+                        Fill = DefaultFill,
                         Stroke = Brushes.Black,
                         StrokeThickness = 0,
                     };
 
                     Parent.Children.Add(Cells[row][col]);
-                    Canvas.SetTop(Cells[row][col], SIZE * (rows - row - 1));
-                    Canvas.SetLeft(Cells[row][col], SIZE * col);
+                    Canvas.SetTop(Cells[row][col], Size * (rows - row - 1));
+                    Canvas.SetLeft(Cells[row][col], Size * col);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the board back to its original state with the default fill.
+        /// </summary>
+        public void Reset()
+        {
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Cols; col++)
+                {
+                    Cells[row][col].Fill = DefaultFill;
                 }
             }
         }

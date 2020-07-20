@@ -10,14 +10,14 @@ namespace TetrisTests
 {
     public class Tests
     {
-        private MainWindow MWindow;
-        private ViewModel VModel;
+        private MainWindow mWindow;
+        private ViewModel vModel;
 
         [SetUp]
         public void Setup()
         {
-            MWindow = new MainWindow();
-            VModel = (ViewModel)MWindow.DataContext;
+            mWindow = new MainWindow();
+            vModel = (ViewModel)mWindow.DataContext;
         }
 
         [Test, Apartment(ApartmentState.STA)]
@@ -26,8 +26,8 @@ namespace TetrisTests
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
             for (int i = 0; i < 7; i++)
             {
-                VModel.KeyDown(Key.Enter);
-                pieces.Add(VModel.Session.CurrentPiece);
+                vModel.KeyDown(Key.Enter); // Behaviour changed - FAILURE POINT
+                pieces.Add(vModel.Session.CurrentPiece);
             }
             Assert.AreEqual(pieces.Count, 7);
         }
@@ -36,26 +36,26 @@ namespace TetrisTests
         public void TestPieceRotationAllStates()
         {
             Queue<Tetrimino> queue = new Queue<Tetrimino>(Tetrimino.Types.Values.ToArray());
-            VModel.Session = new Game(VModel.Arena, null, queue);
+            vModel.Session = new Game(vModel.Arena, null, queue);
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
             for (int i = 0; i < 7; i++)
             {
-                VModel.KeyDown(Key.Enter);
-                Tetrimino piece = VModel.Session.CurrentPiece;
+                vModel.KeyDown(Key.Enter); // Behaviour changed - FAILURE POINT
+                Tetrimino piece = vModel.Session.CurrentPiece;
                 Point[][] states = new Point[4][];
                 states[0] = piece.CurrentState;
                 int stateNo = 1;
                 // Get states during clockwise rotation
                 for (; stateNo < 4; stateNo++)
                 {
-                    VModel.KeyDown(Key.Right);
+                    vModel.KeyDown(Key.Right);
                     states[stateNo] = piece.CurrentState;
                 }
                 // Check states during counterclockwise rotation
                 for (stateNo = 3; stateNo >= 0; stateNo--)
                 {
                     Assert.AreEqual(states[stateNo], piece.CurrentState);
-                    VModel.KeyDown(Key.Left);
+                    vModel.KeyDown(Key.Left);
                 }
                 pieces.Add(piece);
             }
@@ -71,41 +71,41 @@ namespace TetrisTests
                 Tetrimino.Types['Z'],
                 Tetrimino.Types['S']
             });
-            VModel.Session = new Game(VModel.Arena, null, queue);
-            VModel.KeyDown(Key.Enter);
-            Tetrimino referencePiece = VModel.Session.CurrentPiece;
-            VModel.KeyDown(Key.Left);
+            vModel.Session = new Game(vModel.Arena, null, queue);
+            vModel.KeyDown(Key.Enter);
+            Tetrimino referencePiece = vModel.Session.CurrentPiece;
+            vModel.KeyDown(Key.Left);
             Point[] rotatedState = referencePiece.CurrentState;
             // Shuffle back to the first piece
-            VModel.KeyDown(Key.Enter);
-            VModel.KeyDown(Key.Enter);
-            Assert.AreNotEqual(rotatedState, VModel.Session.CurrentPiece.CurrentState);
+            vModel.KeyDown(Key.Enter);
+            vModel.KeyDown(Key.Enter);
+            Assert.AreNotEqual(rotatedState, vModel.Session.CurrentPiece.CurrentState);
         }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestWindowInFocus()
         {
             // Defaults to being enabled
-            Assert.True(VModel.IsActive);
+            Assert.True(vModel.IsActive);
 
             // Behaviour when put into focus
-            MWindow.Show();
-            Assert.True(MWindow.IsKeyboardFocused);
-            Assert.True(VModel.IsActive);
+            mWindow.Show();
+            Assert.True(mWindow.IsKeyboardFocused);
+            Assert.True(vModel.IsActive);
         }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestWindowOutOfFocus()
         {
             // Behaviour when put into focus
-            MWindow.Show();
-            Assert.True(MWindow.IsKeyboardFocused);
-            Assert.True(VModel.IsActive);
+            mWindow.Show();
+            Assert.True(mWindow.IsKeyboardFocused);
+            Assert.True(vModel.IsActive);
 
             // Behaviour when put out of focus
-            MWindow.Hide();
-            Assert.False(MWindow.IsKeyboardFocused);
-            Assert.False(VModel.IsActive);
+            mWindow.Hide();
+            Assert.False(mWindow.IsKeyboardFocused);
+            Assert.False(vModel.IsActive);
         }
     }
 }
