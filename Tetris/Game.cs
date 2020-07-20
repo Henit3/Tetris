@@ -9,15 +9,15 @@ namespace Tetris
     /// </summary>
     public class Game
     {
-        /// <summary>
-        /// The point in the grid where pieces should spawn.
-        /// </summary>
-        private static readonly Point spawnpoint = new Point(3, 19);
 
         /*public int Points { get; set; }
         public int Lines { get; set; }
         public int Pieces { get; set; }*/
 
+        /// <summary>
+        /// The point in the grid where pieces should spawn.
+        /// </summary>
+        private readonly Point spawnpoint = new Point(3, 19);
         /// <summary>
         /// The grid to be used while placing and moving pieces.
         /// </summary>
@@ -49,6 +49,33 @@ namespace Tetris
         public Game(Grid arena)
         {
             Arena = arena;
+        }
+
+
+#nullable enable
+        /// <summary>
+        /// Alternate constructor for the game object taking in extra preset parameters.
+        /// </summary>
+        /// <param name="arena">The grid to be used for the game session.</param>
+        /// <param name="spawn">The spawnpoint to be used for Tetriminos.</param>
+        /// <param name="preQueue">A queue of Tetriminos to be used initially.</param>
+        /// <remarks>
+        /// This constructor will mainly see use in testing for dependency injection.
+        /// </remarks>
+        public Game(Grid arena, Point? spawn = null, Queue<Tetrimino>? preQueue = null)
+        {
+#nullable disable
+            Arena = arena;
+            if (spawn == null)
+            {
+                spawn = new Point((arena.Cols / 2) - 2, arena.Rows - 1);
+            }
+            spawnpoint = (Point)spawn;
+            if (preQueue == null)
+            {
+                preQueue = new Queue<Tetrimino>();
+            }
+            PieceQueue = (Queue<Tetrimino>)preQueue;
         }
 
         /*public void Start()

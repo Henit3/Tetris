@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -34,15 +35,13 @@ namespace TetrisTests
         [Test, Apartment(ApartmentState.STA)]
         public void TestPieceRotationAllStates()
         {
+            Queue<Tetrimino> queue = new Queue<Tetrimino>(Tetrimino.Types.Values.ToArray());
+            VModel.Session = new Game(VModel.Arena, null, queue);
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
-            do
+            for (int i = 0; i < 7; i++)
             {
                 VModel.KeyDown(Key.Enter);
                 Tetrimino piece = VModel.Session.CurrentPiece;
-                if (pieces.Contains(VModel.Session.CurrentPiece))
-                {
-                    continue;
-                }
                 Point[][] states = new Point[4][];
                 states[0] = piece.CurrentState;
                 int stateNo = 1;
@@ -59,20 +58,27 @@ namespace TetrisTests
                     VModel.KeyDown(Key.Left);
                 }
                 pieces.Add(piece);
-            } while (pieces.Count < 7);
+            }
+            Assert.AreEqual(7, pieces.Count);
         }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestPieceRotationReset()
         {
+            Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[]
+            {
+                Tetrimino.Types['S'],
+                Tetrimino.Types['Z'],
+                Tetrimino.Types['S']
+            });
+            VModel.Session = new Game(VModel.Arena, null, queue);
             VModel.KeyDown(Key.Enter);
             Tetrimino referencePiece = VModel.Session.CurrentPiece;
             VModel.KeyDown(Key.Left);
             Point[] rotatedState = referencePiece.CurrentState;
-            do
-            {
-                VModel.KeyDown(Key.Enter);
-            } while (referencePiece.Type == VModel.Session.CurrentPiece.Type);
+            // Shuffle back to the first piece
+            VModel.KeyDown(Key.Enter);
+            VModel.KeyDown(Key.Enter);
             Assert.AreNotEqual(rotatedState, VModel.Session.CurrentPiece.CurrentState);
         }
 
