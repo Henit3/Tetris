@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lostfocushandler_22',['LostFocusHandler',['../class_tetris_1_1_view_model.html#a410e58c4994ac7782c878701e28421a9',1,'Tetris::ViewModel']]]
+  ['isactive_22',['IsActive',['../class_tetris_1_1_view_model.html#ae5b8481d2f78eed93c6d943a7ee48f74',1,'Tetris::ViewModel']]]
 ];

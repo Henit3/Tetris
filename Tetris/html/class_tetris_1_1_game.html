@@ -99,9 +99,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0be779e30cc62dd96eb1dae5d989357e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a0be779e30cc62dd96eb1dae5d989357e">Game</a> (<a class="el" href="class_tetris_1_1_grid.html">Grid</a> arena)</td></tr>
 <tr class="memdesc:a0be779e30cc62dd96eb1dae5d989357e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor for the game object.  <a href="class_tetris_1_1_game.html#a0be779e30cc62dd96eb1dae5d989357e">More...</a><br /></td></tr>
 <tr class="separator:a0be779e30cc62dd96eb1dae5d989357e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfe37fd490ce86b425ef02c987fc21e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#adfe37fd490ce86b425ef02c987fc21e6">Game</a> (<a class="el" href="class_tetris_1_1_grid.html">Grid</a> arena, Point? spawn=null, Queue&lt; <a class="el" href="class_tetris_1_1_tetrimino.html">Tetrimino</a> &gt;? preQueue=null)</td></tr>
+<tr class="memdesc:adfe37fd490ce86b425ef02c987fc21e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alternate constructor for the game object taking in extra preset parameters.  <a href="class_tetris_1_1_game.html#adfe37fd490ce86b425ef02c987fc21e6">More...</a><br /></td></tr>
+<tr class="separator:adfe37fd490ce86b425ef02c987fc21e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5cd173b95ae1a0c4093a806a8db62c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#ab5cd173b95ae1a0c4093a806a8db62c2">Start</a> ()</td></tr>
+<tr class="memdesc:ab5cd173b95ae1a0c4093a806a8db62c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the game session, resetting all associated variables.  <a href="class_tetris_1_1_game.html#ab5cd173b95ae1a0c4093a806a8db62c2">More...</a><br /></td></tr>
+<tr class="separator:ab5cd173b95ae1a0c4093a806a8db62c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51a2f4a3998ecef603a90da9c23563ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a51a2f4a3998ecef603a90da9c23563ad">GameLoop</a> ()</td></tr>
 <tr class="memdesc:a51a2f4a3998ecef603a90da9c23563ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the game loop logic that will be repeatedly executed.  <a href="class_tetris_1_1_game.html#a51a2f4a3998ecef603a90da9c23563ad">More...</a><br /></td></tr>
 <tr class="separator:a51a2f4a3998ecef603a90da9c23563ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef57727563743bb7dd31181d33824f4e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#aef57727563743bb7dd31181d33824f4e">DropAndLock</a> ()</td></tr>
+<tr class="memdesc:aef57727563743bb7dd31181d33824f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies gravity to a piece and determines whether the piece should be locked.  <a href="class_tetris_1_1_game.html#aef57727563743bb7dd31181d33824f4e">More...</a><br /></td></tr>
+<tr class="separator:aef57727563743bb7dd31181d33824f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8064d168fdb24903d273fc45d690a265"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a8064d168fdb24903d273fc45d690a265">HardDrop</a> ()</td></tr>
+<tr class="memdesc:a8064d168fdb24903d273fc45d690a265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drops the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> to the last available position in the downward direction.  <a href="class_tetris_1_1_game.html#a8064d168fdb24903d273fc45d690a265">More...</a><br /></td></tr>
+<tr class="separator:a8064d168fdb24903d273fc45d690a265"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c821943110a40bcce723c6f5d73cf23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a7c821943110a40bcce723c6f5d73cf23">MoveLeft</a> ()</td></tr>
+<tr class="memdesc:a7c821943110a40bcce723c6f5d73cf23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for MoveHorizontal in the left direction.  <a href="class_tetris_1_1_game.html#a7c821943110a40bcce723c6f5d73cf23">More...</a><br /></td></tr>
+<tr class="separator:a7c821943110a40bcce723c6f5d73cf23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8f6e76735000c78cf53e74bb5338fc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#ad8f6e76735000c78cf53e74bb5338fc4">MoveRight</a> ()</td></tr>
+<tr class="memdesc:ad8f6e76735000c78cf53e74bb5338fc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for MoveHorizontal in the right direction.  <a href="class_tetris_1_1_game.html#ad8f6e76735000c78cf53e74bb5338fc4">More...</a><br /></td></tr>
+<tr class="separator:ad8f6e76735000c78cf53e74bb5338fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab04b5afd6cb07251dab46529007eb636"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#ab04b5afd6cb07251dab46529007eb636">RotatePieceCW</a> ()</td></tr>
 <tr class="memdesc:ab04b5afd6cb07251dab46529007eb636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for RotatePiece in the clockwise direction.  <a href="class_tetris_1_1_game.html#ab04b5afd6cb07251dab46529007eb636">More...</a><br /></td></tr>
 <tr class="separator:ab04b5afd6cb07251dab46529007eb636"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,6 +129,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:a2bdd265c82f43a3675a065bf0a7bf13b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a2bdd265c82f43a3675a065bf0a7bf13b">Lines</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a2bdd265c82f43a3675a065bf0a7bf13b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of lines cleared in this game session.  <a href="class_tetris_1_1_game.html#a2bdd265c82f43a3675a065bf0a7bf13b">More...</a><br /></td></tr>
+<tr class="separator:a2bdd265c82f43a3675a065bf0a7bf13b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25d0fadba6209c1383aab2b5b1b9d1f2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a25d0fadba6209c1383aab2b5b1b9d1f2">Pieces</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a25d0fadba6209c1383aab2b5b1b9d1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of pieces dropped in this game session.  <a href="class_tetris_1_1_game.html#a25d0fadba6209c1383aab2b5b1b9d1f2">More...</a><br /></td></tr>
+<tr class="separator:a25d0fadba6209c1383aab2b5b1b9d1f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a385f70179ebfa32079bd71b1b80667"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tetris_1_1_tetrimino.html">Tetrimino</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a5a385f70179ebfa32079bd71b1b80667">CurrentPiece</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a5a385f70179ebfa32079bd71b1b80667"><td class="mdescLeft">&#160;</td><td class="mdescRight">A property for the current active piece that is being controlled.  <a href="class_tetris_1_1_game.html#a5a385f70179ebfa32079bd71b1b80667">More...</a><br /></td></tr>
 <tr class="separator:a5a385f70179ebfa32079bd71b1b80667"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,7 +143,7 @@ Properties</h2></td></tr>
 <div class="textblock"><p>Contains the overall game logic, mediating the pieces, player and the playable grid. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0be779e30cc62dd96eb1dae5d989357e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0be779e30cc62dd96eb1dae5d989357e">&#9670;&nbsp;</a></span>Game()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be779e30cc62dd96eb1dae5d989357e">&#9670;&nbsp;</a></span>Game() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +168,72 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="adfe37fd490ce86b425ef02c987fc21e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfe37fd490ce86b425ef02c987fc21e6">&#9670;&nbsp;</a></span>Game() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Tetris.Game.Game </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tetris_1_1_grid.html">Grid</a>&#160;</td>
+          <td class="paramname"><em>arena</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point?&#160;</td>
+          <td class="paramname"><em>spawn</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Queue&lt; <a class="el" href="class_tetris_1_1_tetrimino.html">Tetrimino</a> &gt;?&#160;</td>
+          <td class="paramname"><em>preQueue</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alternate constructor for the game object taking in extra preset parameters. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arena</td><td>The grid to be used for the game session.</td></tr>
+    <tr><td class="paramname">spawn</td><td>The spawnpoint to be used for Tetriminos.</td></tr>
+    <tr><td class="paramname">preQueue</td><td>A queue of Tetriminos to be used initially.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This constructor will mainly see use in testing for dependency injection. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aef57727563743bb7dd31181d33824f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef57727563743bb7dd31181d33824f4e">&#9670;&nbsp;</a></span>DropAndLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tetris.Game.DropAndLock </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Applies gravity to a piece and determines whether the piece should be locked. </p>
+<dl class="section return"><dt>Returns</dt><dd>Whether a new piece is required to be spawned. </dd></dl>
+
+</div>
+</div>
 <a id="a51a2f4a3998ecef603a90da9c23563ad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a51a2f4a3998ecef603a90da9c23563ad">&#9670;&nbsp;</a></span>GameLoop()</h2>
 
@@ -162,6 +251,65 @@ Properties</h2></td></tr>
 
 <p>Contains the game loop logic that will be repeatedly executed. </p>
 <p>For now, this is a singular loop to assist development. </p>
+
+</div>
+</div>
+<a id="a8064d168fdb24903d273fc45d690a265"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8064d168fdb24903d273fc45d690a265">&#9670;&nbsp;</a></span>HardDrop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tetris.Game.HardDrop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Drops the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> to the last available position in the downward direction. </p>
+
+</div>
+</div>
+<a id="a7c821943110a40bcce723c6f5d73cf23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c821943110a40bcce723c6f5d73cf23">&#9670;&nbsp;</a></span>MoveLeft()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tetris.Game.MoveLeft </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wrapper for MoveHorizontal in the left direction. </p>
+<p>MoveHorizontal(int) </p>
+
+</div>
+</div>
+<a id="ad8f6e76735000c78cf53e74bb5338fc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8f6e76735000c78cf53e74bb5338fc4">&#9670;&nbsp;</a></span>MoveRight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tetris.Game.MoveRight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wrapper for MoveHorizontal in the right direction. </p>
+<p>MoveHorizontal(int) </p>
 
 </div>
 </div>
@@ -205,6 +353,25 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="ab5cd173b95ae1a0c4093a806a8db62c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5cd173b95ae1a0c4093a806a8db62c2">&#9670;&nbsp;</a></span>Start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tetris.Game.Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts the game session, resetting all associated variables. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Property Documentation</h2>
 <a id="a5a385f70179ebfa32079bd71b1b80667"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a385f70179ebfa32079bd71b1b80667">&#9670;&nbsp;</a></span>CurrentPiece</h2>
@@ -227,6 +394,54 @@ Properties</h2></td></tr>
 </div><div class="memdoc">
 
 <p>A property for the current active piece that is being controlled. </p>
+
+</div>
+</div>
+<a id="a2bdd265c82f43a3675a065bf0a7bf13b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bdd265c82f43a3675a065bf0a7bf13b">&#9670;&nbsp;</a></span>Lines</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Tetris.Game.Lines</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of lines cleared in this game session. </p>
+
+</div>
+</div>
+<a id="a25d0fadba6209c1383aab2b5b1b9d1f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25d0fadba6209c1383aab2b5b1b9d1f2">&#9670;&nbsp;</a></span>Pieces</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Tetris.Game.Pieces</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of pieces dropped in this game session. </p>
 
 </div>
 </div>

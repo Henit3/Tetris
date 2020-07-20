@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['tetrimino_33',['Tetrimino',['../class_tetris_1_1_tetrimino.html',1,'Tetris.Tetrimino'],['../class_tetris_1_1_tetrimino.html#ae25e2b4e6dd172868ce5ca58c91656ab',1,'Tetris.Tetrimino.Tetrimino()']]],
-  ['tetrimino_2ecs_34',['Tetrimino.cs',['../_tetrimino_8cs.html',1,'']]],
-  ['tetris_35',['Tetris',['../namespace_tetris.html',1,'']]],
-  ['type_36',['Type',['../class_tetris_1_1_tetrimino.html#a6b383f95c5810f1732ed59c96dd4b365',1,'Tetris::Tetrimino']]],
-  ['types_37',['Types',['../class_tetris_1_1_tetrimino.html#a956c068117b70669aa4b71974a98ecca',1,'Tetris::Tetrimino']]]
+  ['reset_36',['Reset',['../class_tetris_1_1_grid.html#aae88555e5fd8daa4de338c0e860088fe',1,'Tetris::Grid']]],
+  ['rotate_37',['Rotate',['../class_tetris_1_1_tetrimino.html#a2d81cfb5144a1ac0df9a3062ffd69c0b',1,'Tetris::Tetrimino']]],
+  ['rotatepiececcw_38',['RotatePieceCCW',['../class_tetris_1_1_game.html#a40d4c4236c6f92b47377ae929a08f204',1,'Tetris::Game']]],
+  ['rotatepiececw_39',['RotatePieceCW',['../class_tetris_1_1_game.html#ab04b5afd6cb07251dab46529007eb636',1,'Tetris::Game']]],
+  ['rows_40',['Rows',['../class_tetris_1_1_grid.html#a7333ed7cf393c8197bd40a93973e4332',1,'Tetris::Grid']]]
 ];

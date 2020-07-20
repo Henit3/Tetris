@@ -99,6 +99,57 @@ namespace TetrisTests
         }
 
         [Test, Apartment(ApartmentState.STA)]
+        public void TestLineClearSingle()
+        {
+            Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[]
+            {
+                Tetrimino.Types['I']
+            });
+            for (int col = 1; col < vModel.Arena.Cols; col++)
+            {
+                vModel.Arena.Cells[0][col].Fill = Brushes.Black;
+            }
+            vModel.Session = new Game(vModel.Arena, null, queue);
+
+            SpawnPiece();
+            vModel.KeyDown(Key.Left);
+            for (int i = 0; i < 3; i++)
+            {
+                vModel.KeyDown(Key.A);
+            }
+            Assert.AreEqual(0, vModel.Session.Lines);
+            SetPiece();
+            Assert.AreEqual(1, vModel.Session.Lines);
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestLineClearMultiple()
+        {
+            Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[]
+            {
+                Tetrimino.Types['I']
+            });
+            for (int row = 0; row < 4; row++)
+            {
+                for (int col = 1; col < vModel.Arena.Cols; col++)
+                {
+                    vModel.Arena.Cells[row][col].Fill = Brushes.Black;
+                }
+            }
+            vModel.Session = new Game(vModel.Arena, null, queue);
+
+            SpawnPiece();
+            vModel.KeyDown(Key.Left);
+            for (int i = 0; i < 3; i++)
+            {
+                vModel.KeyDown(Key.A);
+            }
+            Assert.AreEqual(0, vModel.Session.Lines);
+            SetPiece();
+            Assert.AreEqual(4, vModel.Session.Lines);
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
         public void TestPieceMovement()
         {
             SpawnPiece();
@@ -112,7 +163,7 @@ namespace TetrisTests
         }
 
         [Test, Apartment(ApartmentState.STA)]
-        public void TestHardDrop()
+        public void TestPieceHardDrop()
         {
             Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[]
             {

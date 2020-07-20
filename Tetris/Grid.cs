@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -79,6 +80,56 @@ namespace Tetris
                     Cells[row][col].Fill = DefaultFill;
                 }
             }
+        }
+
+        public int Clean()
+        {
+            int count = 0;
+            for (int row = 0; row < Rows; row++)
+            {
+                bool filled = true;
+                for (int col = 0; col < Cols; col++)
+                {
+                    if (Cells[row][col].Fill == DefaultFill)
+                    {
+                        filled = false;
+                        break;
+                    }
+                }
+                if (filled)
+                {
+                    // Clean row, shift rows above down
+                    // Recursive - if not top, copy top, else clear
+                    ShiftLine(row);
+                    row--;
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        private Brush[] ShiftLine(int row)
+        {
+            Brush[] output = new Brush[Cols];
+            if (row == Rows - 1)
+            {
+                // Clear this one
+                for (int col = 0; col < Cols; col++)
+                {
+                    output[col] = Cells[row][col].Fill;
+                    Cells[row][col].Fill = DefaultFill;
+                }
+            }
+            else
+            {
+                Brush[] input = ShiftLine(row + 1);
+                for (int col = 0; col < Cols; col++)
+                {
+                    output[col] = Cells[row][col].Fill;
+                    Cells[row][col].Fill = input[col];
+                }
+            }
+            return output;
         }
     }
 }

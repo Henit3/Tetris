@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['keycolourmap_19',['KeyColourMap',['../class_tetris_1_1_view_model.html#aa18b5a684419255f6bc35b481ca8e18a',1,'Tetris::ViewModel']]],
-  ['keydown_20',['KeyDown',['../class_tetris_1_1_view_model.html#ab9bd32652dedd5b691796f3bc1a6e58c',1,'Tetris::ViewModel']]],
-  ['keydownhandler_21',['KeyDownHandler',['../class_tetris_1_1_view_model.html#a19253229e2a863d9765141921e71fcec',1,'Tetris::ViewModel']]]
+  ['harddrop_21',['HardDrop',['../class_tetris_1_1_game.html#a8064d168fdb24903d273fc45d690a265',1,'Tetris.Game.HardDrop()'],['../class_tetris_1_1_tetrimino.html#a3c2bcced045fffdc46f3beaaefe68677',1,'Tetris.Tetrimino.HardDrop()']]]
 ];

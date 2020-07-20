@@ -9,9 +9,15 @@ namespace Tetris
     /// </summary>
     public class Game
     {
-        /*public int Points { get; set; }
+        /*public int Points { get; set; }*/
+        /// <summary>
+        /// The number of lines cleared in this game session.
+        /// </summary>
         public int Lines { get; set; }
-        public int Pieces { get; set; }*/
+        /// <summary>
+        /// The number of pieces dropped in this game session.
+        /// </summary>
+        public int Pieces { get; set; }
 
         /// <summary>
         /// The point in the grid where pieces should spawn.
@@ -37,7 +43,7 @@ namespace Tetris
         /// <summary>
         /// Whether the game is in a playable state.
         /// </summary>
-        private bool isPlayable;
+        private bool isPlayable = true;
         /// <summary>
         /// The number of times an unsuccessful fall has been attempted, used to lock a piece.
         /// </summary>
@@ -88,16 +94,14 @@ namespace Tetris
         /// </summary>
         public void Start()
         {
-            /*Points = 0;
+            /*Points = 0;*/
             Lines = 0;
-            Pieces = 0;*/
+            Pieces = 0;
             arena.Reset();
             CurrentPiece = null;
             lastLocation = null;
             pieceQueue.Clear();
             isPlayable = true;
-
-            GameLoop();
         }
 
         /// <summary>
@@ -118,6 +122,7 @@ namespace Tetris
                 {
                     return;
                 }
+
                 if (pieceQueue.Count == 0)
                 {
                     GenerateBag();
@@ -145,8 +150,7 @@ namespace Tetris
                 groundCounter++;
                 if (groundCounter > 3)
                 {
-                    groundCounter = 0;
-                    lastLocation = null;
+                    LockPiece();
                     return true;
                 }
             }
@@ -154,6 +158,9 @@ namespace Tetris
             return false;
         }
 
+        /// <summary>
+        /// Drops the Tetrimino to the last available position in the downward direction.
+        /// </summary>
         public void HardDrop()
         {
             if (CurrentPiece == null)
@@ -162,9 +169,19 @@ namespace Tetris
             }
             CurrentPiece.HardDrop(arena);
             RenderPiece(CurrentPiece);
+            LockPiece();
+            // GameLoop();
+        }
+
+        /// <summary>
+        /// Locks the piece, resetting all piece related fields and cleans the grid of lines.
+        /// </summary>
+        private void LockPiece()
+        {
             groundCounter = 0;
             lastLocation = null;
             CurrentPiece = null;
+            Lines += arena.Clean();
         }
 
         /// <summary>
@@ -247,6 +264,7 @@ namespace Tetris
                 isPlayable = false;
                 return null;
             }
+            Pieces++;
             RenderPiece(piece);
             return piece;
         }
