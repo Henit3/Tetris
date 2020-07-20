@@ -32,7 +32,7 @@ namespace TetrisTests
         }
 
         [Test, Apartment(ApartmentState.STA)]
-        public void TestPieceRotation()
+        public void TestPieceRotationAllStates()
         {
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
             do
@@ -43,23 +43,20 @@ namespace TetrisTests
                 {
                     continue;
                 }
-                if (piece.Type != 'O' && piece.Type != 'I')
+                Point[][] states = new Point[4][];
+                states[0] = piece.CurrentState;
+                int stateNo = 1;
+                // Get states during clockwise rotation
+                for (; stateNo < 4; stateNo++)
                 {
-                    Point[][] states = new Point[4][];
-                    states[0] = piece.CurrentState;
-                    int stateNo = 1;
-                    // Get states during clockwise rotation
-                    for (; stateNo < 4; stateNo++)
-                    {
-                        VModel.KeyDown(Key.Right);
-                        states[stateNo] = piece.CurrentState;
-                    }
-                    // Check states during counterclockwise rotation
-                    for (stateNo = 3; stateNo >= 0; stateNo--)
-                    {
-                        Assert.AreEqual(states[stateNo], piece.CurrentState);
-                        VModel.KeyDown(Key.Left);
-                    }
+                    VModel.KeyDown(Key.Right);
+                    states[stateNo] = piece.CurrentState;
+                }
+                // Check states during counterclockwise rotation
+                for (stateNo = 3; stateNo >= 0; stateNo--)
+                {
+                    Assert.AreEqual(states[stateNo], piece.CurrentState);
+                    VModel.KeyDown(Key.Left);
                 }
                 pieces.Add(piece);
             } while (pieces.Count < 7);

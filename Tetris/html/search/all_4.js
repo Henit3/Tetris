@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['mainwindow_6',['MainWindow',['../class_tetris_1_1_main_window.html',1,'Tetris.MainWindow'],['../class_tetris_1_1_main_window.html#a67a15a9b52a51279e703d9c06531b0b5',1,'Tetris.MainWindow.MainWindow()']]],
-  ['mainwindow_2examl_2ecs_7',['MainWindow.xaml.cs',['../_main_window_8xaml_8cs.html',1,'']]]
+  ['isactive_18',['IsActive',['../class_tetris_1_1_view_model.html#ae5b8481d2f78eed93c6d943a7ee48f74',1,'Tetris::ViewModel']]]
 ];

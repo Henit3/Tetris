@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -20,41 +21,120 @@ namespace Tetris
         /// </summary>
         static Tetrimino()
         {
-            /*Vector[,] empty = new Vector[4, 4];*/
-            new Tetrimino('O', Brushes.Yellow/*, empty*/, new Point[][]
+            Vector[][] defaultOffsets = new Vector[][]
+            {
+                new Vector[4] {
+                    new Vector(0, 0),
+                    new Vector(0, 0),
+                    new Vector(0, 0),
+                    new Vector(0, 0)
+                }, new Vector[4] {
+                    new Vector(0, 0),
+                    new Vector(1, 0),
+                    new Vector(0, 0),
+                    new Vector(-1, 0)
+                }, new Vector[4] {
+                    new Vector(0, 0),
+                    new Vector(1, 1),
+                    new Vector(0, 0),
+                    new Vector(-1, 1)
+                }, new Vector[4] {
+                    new Vector(0, 0),
+                    new Vector(0, -2),
+                    new Vector(0, 0),
+                    new Vector(0, -2)
+                }, new Vector[4] {
+                    new Vector(0, 0),
+                    new Vector(1, -2),
+                    new Vector(0, 0),
+                    new Vector(-1, -2)
+                }
+            };
+            new Tetrimino('O', Brushes.Yellow, new Vector[][]
+            {
+                new Vector[4] {
+                    new Vector(0, 0),
+                    new Vector(0, 1),
+                    new Vector(-1, 1),
+                    new Vector(-1, 0)
+                }
+            }, new Point[][]
             {
                 new Point[4] {
                     new Point(0, 0),
                     new Point(0, -1),
                     new Point(1, 0),
                     new Point(1, -1)
+                }, new Point[4] {
+                    new Point(0, -1),
+                    new Point(0, -2),
+                    new Point(1, -1),
+                    new Point(1, -2)
+                }, new Point[4] {
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -1),
+                    new Point(2, -2)
+                }, new Point[4] {
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(2, 0),
+                    new Point(2, -1)
                 }
             }, new Vector(1, 0));
-            new Tetrimino('I', Brushes.Cyan/*, empty*/, new Point[][]
+            new Tetrimino('I', Brushes.Cyan, new Vector[][]
+            {
+                new Vector[4] {
+                    new Vector(0, 0),
+                    new Vector(-1, 0),
+                    new Vector(-1, -1),
+                    new Vector(0, -1)
+                }, new Vector[4] {
+                    new Vector(-1, 0),
+                    new Vector(0, 0),
+                    new Vector(1, -1),
+                    new Vector(0, -1)
+                }, new Vector[4] {
+                    new Vector(2, 0),
+                    new Vector(0, 0),
+                    new Vector(-2, -1),
+                    new Vector(0, -1)
+                }, new Vector[4] {
+                    new Vector(-1, 0),
+                    new Vector(0, -1),
+                    new Vector(1, 0),
+                    new Vector(0, 1)
+                }, new Vector[4] {
+                    new Vector(2, 0),
+                    new Vector(0, 2),
+                    new Vector(-2, 0),
+                    new Vector(0, -2)
+                }
+            }, new Point[][]
             {
                 new Point[4] {
-                    new Point(0, -1),
-                    new Point(1, -1),
-                    new Point(2, -1),
-                    new Point(3, -1)
-                }, new Point[4] {
-                    new Point(2, 0),
-                    new Point(2, -1),
-                    new Point(2, -2),
-                    new Point(2, -3)
-                }, new Point[4] {
                     new Point(0, -2),
                     new Point(1, -2),
                     new Point(2, -2),
                     new Point(3, -2)
                 }, new Point[4] {
-                    new Point(1, 0),
-                    new Point(1, -1),
+                    new Point(2, -1),
+                    new Point(2, -2),
+                    new Point(2, -3),
+                    new Point(2, -4)
+                }, new Point[4] {
                     new Point(1, -2),
-                    new Point(1, -3)
+                    new Point(2, -2),
+                    new Point(3, -2),
+                    new Point(4, -2)
+                }, new Point[4] {
+                    new Point(2, 0),
+                    new Point(2, -1),
+                    new Point(2, -2),
+                    new Point(2, -3)
                 }
-            }, new Vector(0, 1));
-            new Tetrimino('L', Brushes.Orange/*, empty*/, new Point[][]
+            }, new Vector(0, 2));
+            new Tetrimino('L', Brushes.Orange, defaultOffsets, new Point[][]
             {
                 new Point[4] { // L on its left
                     new Point(0, -1),
@@ -78,7 +158,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('J', Brushes.Blue/*, empty*/, new Point[][]
+            new Tetrimino('J', Brushes.Blue, defaultOffsets, new Point[][]
             {
                 new Point[4] { // J on its right
                     new Point(0, 0),
@@ -102,7 +182,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('T', Brushes.Magenta/*, empty*/, new Point[][]
+            new Tetrimino('T', Brushes.Magenta, defaultOffsets, new Point[][]
             {
                 new Point[4] { // T pointing up
                     new Point(0, -1),
@@ -126,7 +206,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('S', Brushes.Lime/*, empty*/, new Point[][]
+            new Tetrimino('S', Brushes.Lime, defaultOffsets, new Point[][]
             {
                 new Point[4] { // S on top
                     new Point(0, -1),
@@ -150,7 +230,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('Z', Brushes.Red/*, empty*/, new Point[][]
+            new Tetrimino('Z', Brushes.Red, defaultOffsets, new Point[][]
             {
                 new Point[4] { // Z on top
                     new Point(0, 0),
@@ -189,12 +269,14 @@ namespace Tetris
         /// </summary>
         public char Type { get; }
 
-        /*private readonly Vector[,] offsets;*/
+        /// <summary>
+        /// Vectors applied to give alternate rotations when blocked
+        /// </summary>
+        private readonly Vector[][] offsets;
         /// <summary>
         /// A vector applied to correct the spawn position.
         /// </summary>
         private readonly Vector? shiftSpawn;
-
         /// <summary>
         /// Contains all the states a Tetrimino can have in each of its rotations.
         /// </summary>
@@ -211,6 +293,10 @@ namespace Tetris
         {
             get { return states[currentStateNo]; }
         }
+        /// <summary>
+        /// Property marking the currently occupied cells by the Tetrimino.
+        /// </summary>
+        public Point[] CurrentOccupied { get; private set; } = null;
 
         /// <summary>
         /// The constructor for the Tetrimino class.
@@ -222,12 +308,12 @@ namespace Tetris
         /// <remarks>
         /// Only called in the static constructor, with existing Tetriminos obtained using dictionary.
         /// </remarks>
-        public Tetrimino(char letter, Brush colour, /*Vector[,] _offsets,*/ Point[][] _states,
+        public Tetrimino(char letter, Brush colour, Vector[][] _offsets, Point[][] _states,
             Vector? _shiftSpawn = null)
         {
             Type = letter;
             Colour = colour;
-            /*offsets = _offsets;*/
+            offsets = _offsets;
             states = _states;
             shiftSpawn = _shiftSpawn;
             Position = null;
@@ -242,26 +328,67 @@ namespace Tetris
         /// <remarks>
         /// Currently only returns true.
         /// </remarks>
-        public bool Spawn(Point spawnpoint)
+        public bool Spawn(Grid Arena, Point spawnpoint)
         {
             Position = spawnpoint;
-            if (shiftSpawn != null) // BAD, only need on spawn
+            if (shiftSpawn != null)
             {
                 Position += (Vector) shiftSpawn;
             }
             currentStateNo = 0;
+            CurrentOccupied = GetPoints(Arena);
             return true;
         }
 
-        // TODO: Handle OOB with kicks
         /// <summary>
         /// Rotates the current active piece in a clockwise direction, handling rendering on the grid.
         /// </summary>
         /// <param name="rotation">The number of clockwise right angled rotations to make.</param>
-        public void Rotate(int rotation)
+        public bool Rotate(int rotation, Grid Arena, Point[] lastLocation)
         {
+            Vector positionOffset = new Vector(Position.Value.X, Position.Value.Y);
+
+            int lastStateNo = currentStateNo;
             currentStateNo += rotation;
             currentStateNo -= states.Length * (int)Math.Floor(currentStateNo / (double)states.Length);
+
+            // For every offset, attempt to place. If it fails, go to next offset until all fail.
+            foreach (Vector[] offset in offsets)
+            {
+                // Apply offset and position, fail if out of bounds of the arena
+                // srcOffset - destOffset is the translation
+                Vector totalOffset = positionOffset + offset[currentStateNo] - offset[lastStateNo];
+                Point[] points = ApplyOffset(Arena, totalOffset);
+                if (points == null)
+                {
+                    continue;
+                }
+
+                bool blocked = false;
+                for (int i = 0; i < points.Length; i++)
+                {
+                    // Fail conditions due to the piece being blocked by existing garbage
+                    if (Arena.Cells[(int)points[i].Y][(int)points[i].X].Fill != Grid.DEFAULT_FILL
+                        && !lastLocation.Contains(points[i]))
+                    {
+                        blocked = true;
+                        break;
+                    }
+                }
+                if (blocked)
+                {
+                    continue;
+                }
+
+                // A rotation has been found
+                CurrentOccupied = points;
+                Position += offset[currentStateNo] - offset[lastStateNo];
+                return true;
+            }
+            
+            // If failed to rotate, reset the state number
+            currentStateNo = lastStateNo;
+            return false;
         }
 
         /// <summary>
@@ -270,15 +397,24 @@ namespace Tetris
         /// <param name="rows">The number of rows in the grid to be drawn on.</param>
         /// <param name="cols">The number of rows in the grid to be drawn on.</param>
         /// <returns>An array of points occupied by the Tetrimino.</returns>
-        public Point[] GetPoints(int rows, int cols)
+        public Point[] GetPoints(Grid Arena)
+        {
+            return ApplyOffset(Arena, new Vector(Position.Value.X, Position.Value.Y));
+        }
+
+        /// <summary>
+        /// Applies a vector offset to the current state of the Tetrimino.
+        /// </summary>
+        /// <param name="Arena">The Grid the piece is being handled in.</param>
+        /// <param name="offset">The vector offset to be applied.</param>
+        /// <returns>The resulting points of the Tetrimino after applying the offset.</returns>
+        private Point[] ApplyOffset(Grid Arena, Vector offset)
         {
             Point[] points = new Point[4];
-            Vector positionOffset = new Vector(Position.Value.X, Position.Value.Y);
-
             for (int i = 0; i < CurrentState.Length; i++)
             {
-                points[i] = CurrentState[i] + positionOffset;
-                if (points[i].X >= cols || points[i].Y >= rows
+                points[i] = CurrentState[i] + offset;
+                if (points[i].X >= Arena.Cols || points[i].Y >= Arena.Rows
                     || points[i].X < 0 || points[i].Y < 0)
                 {
                     return null;

@@ -109,10 +109,9 @@ namespace Tetris
             {
                 return;
             }
-            CurrentPiece.Rotate(rotation);
-            if (!RenderPiece(CurrentPiece))
+            if (CurrentPiece.Rotate(rotation, Arena, lastLocation))
             {
-                CurrentPiece.Rotate(-rotation);
+                RenderPiece(CurrentPiece);
             }
         }
 
@@ -123,7 +122,7 @@ namespace Tetris
         private Tetrimino SpawnPiece()
         {
             Tetrimino piece = PieceQueue.Dequeue();
-            piece.Spawn(spawnpoint);
+            piece.Spawn(Arena, spawnpoint);
             RenderPiece(piece);
             return piece;
         }
@@ -139,7 +138,7 @@ namespace Tetris
             {
                 return false;
             }
-            Point[] points = piece.GetPoints(Arena.Rows, Arena.Cols);
+            Point[] points = piece.CurrentOccupied;
             if (points == null)
             {
                 return false;
