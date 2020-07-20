@@ -35,9 +35,9 @@ namespace Tetris
         /// </summary>
         private Point[] lastLocation;
         /// <summary>
-        /// Whether the game has ended due to no more possible moves.
+        /// Whether the game is in a playable state.
         /// </summary>
-        private bool hasLost;
+        private bool isPlayable;
         /// <summary>
         /// The number of times an unsuccessful fall has been attempted, used to lock a piece.
         /// </summary>
@@ -95,7 +95,7 @@ namespace Tetris
             CurrentPiece = null;
             lastLocation = null;
             pieceQueue.Clear();
-            hasLost = false;
+            isPlayable = true;
 
             GameLoop();
         }
@@ -108,13 +108,13 @@ namespace Tetris
         /// </remarks>
         public void GameLoop()
         {
-            if (hasLost)
+            if (!isPlayable)
             {
                 return;
             }
             /*while (!hasLost)*/
             {
-                if (!DropAndLock())
+                if (CurrentPiece != null && !DropAndLock())
                 {
                     return;
                 }
@@ -154,6 +154,51 @@ namespace Tetris
             return false;
         }
 
+        public void HardDrop()
+        {
+            if (CurrentPiece == null)
+            {
+                return;
+            }
+            CurrentPiece.HardDrop(arena);
+            RenderPiece(CurrentPiece);
+            groundCounter = 0;
+            lastLocation = null;
+            CurrentPiece = null;
+        }
+
+        /// <summary>
+        /// Wrapper for MoveHorizontal in the left direction.
+        /// </summary>
+        /// <see cref="MoveHorizontal(int)"/>
+        public void MoveLeft()
+        {
+            MoveHorizontal(-1);
+        }
+
+        /// <summary>
+        /// Wrapper for MoveHorizontal in the right direction.
+        /// </summary>
+        /// <see cref="MoveHorizontal(int)"/>
+        public void MoveRight()
+        {
+            MoveHorizontal(1);
+        }
+
+        /// <summary>
+        /// Moves the current piece horizontally.
+        /// </summary>
+        /// <param name="rotation">The number of cells to move right.</param>
+        private void MoveHorizontal(int x)
+        {
+            if (CurrentPiece == null)
+            {
+                return;
+            }
+            CurrentPiece.Move(arena, x);
+            RenderPiece(CurrentPiece);
+        }
+
         /// <summary>
         /// Wrapper for RotatePiece in the clockwise direction.
         /// </summary>
@@ -182,7 +227,7 @@ namespace Tetris
             {
                 return;
             }
-            if (CurrentPiece.Rotate(rotation, arena))
+            if (CurrentPiece.Rotate(arena, rotation))
             {
                 RenderPiece(CurrentPiece);
             }
@@ -191,13 +236,15 @@ namespace Tetris
         /// <summary>
         /// Spawns a new piece by dequeing from the piece queue.
         /// </summary>
-        /// <returns>The next Tetrimino piece that was spawned.</returns>
+        /// <returns>
+        /// The next Tetrimino piece that was spawned, and null if it was unsuccesful.
+        /// </returns>
         private Tetrimino SpawnPiece()
         {
             Tetrimino piece = pieceQueue.Dequeue();
             if (!piece.Spawn(arena, spawnpoint))
             {
-                hasLost = true;
+                isPlayable = false;
                 return null;
             }
             RenderPiece(piece);
@@ -208,7 +255,9 @@ namespace Tetris
         /// Renders the piece onto the associated grid.
         /// </summary>
         /// <param name="piece">The Tetrimino to be rendered.</param>
-        /// <returns>Whether the piece could successfully be rendered or not.</returns>
+        /// <returns>
+        /// Whether the piece could successfully be rendered or not.
+        /// </returns>
         private bool RenderPiece(Tetrimino piece)
         {
             if (piece == null)

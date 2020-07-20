@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Tetris;
 
 namespace TetrisTests
@@ -12,6 +13,15 @@ namespace TetrisTests
     {
         private MainWindow mWindow;
         private ViewModel vModel;
+
+        private void SpawnPiece()
+        {
+            vModel.KeyDown(Key.S);
+        }
+        private void SetPiece()
+        {
+            vModel.KeyDown(Key.W);
+        }
 
         [SetUp]
         public void Setup()
@@ -26,8 +36,9 @@ namespace TetrisTests
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
             for (int i = 0; i < 7; i++)
             {
-                vModel.KeyDown(Key.Enter); // Behaviour changed - FAILURE POINT
+                SpawnPiece();
                 pieces.Add(vModel.Session.CurrentPiece);
+                SetPiece();
             }
             Assert.AreEqual(pieces.Count, 7);
         }
@@ -37,10 +48,11 @@ namespace TetrisTests
         {
             Queue<Tetrimino> queue = new Queue<Tetrimino>(Tetrimino.Types.Values.ToArray());
             vModel.Session = new Game(vModel.Arena, null, queue);
+
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
             for (int i = 0; i < 7; i++)
             {
-                vModel.KeyDown(Key.Enter); // Behaviour changed - FAILURE POINT
+                SpawnPiece();
                 Tetrimino piece = vModel.Session.CurrentPiece;
                 Point[][] states = new Point[4][];
                 states[0] = piece.CurrentState;
@@ -58,6 +70,7 @@ namespace TetrisTests
                     vModel.KeyDown(Key.Left);
                 }
                 pieces.Add(piece);
+                SetPiece();
             }
             Assert.AreEqual(7, pieces.Count);
         }
@@ -72,14 +85,46 @@ namespace TetrisTests
                 Tetrimino.Types['S']
             });
             vModel.Session = new Game(vModel.Arena, null, queue);
-            vModel.KeyDown(Key.Enter);
+
+            SpawnPiece();
             Tetrimino referencePiece = vModel.Session.CurrentPiece;
             vModel.KeyDown(Key.Left);
+            SetPiece();
             Point[] rotatedState = referencePiece.CurrentState;
             // Shuffle back to the first piece
-            vModel.KeyDown(Key.Enter);
-            vModel.KeyDown(Key.Enter);
+            SpawnPiece();
+            SetPiece();
+            SpawnPiece();
             Assert.AreNotEqual(rotatedState, vModel.Session.CurrentPiece.CurrentState);
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestPieceMovement()
+        {
+            SpawnPiece();
+            Point initialPosition = (Point)vModel.Session.CurrentPiece.Position;
+            vModel.KeyDown(Key.A);
+            Assert.AreEqual((Point)vModel.Session.CurrentPiece.Position,
+                initialPosition + new Vector(-1, 0));
+            vModel.KeyDown(Key.D);
+            Assert.AreEqual((Point)vModel.Session.CurrentPiece.Position,
+                initialPosition);
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestHardDrop()
+        {
+            Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[]
+            {
+                Tetrimino.Types['O']
+            });
+            vModel.Session = new Game(vModel.Arena, null, queue);
+
+            SpawnPiece();
+            Point initialPosition = (Point)vModel.Session.CurrentPiece.Position;
+            Brush colour = vModel.Session.CurrentPiece.Colour;
+            SetPiece();
+            Assert.AreEqual(colour, vModel.Arena.Cells[0][(int)initialPosition.X].Fill);
         }
 
         [Test, Apartment(ApartmentState.STA)]

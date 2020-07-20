@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using System.Windows.Media;
 
@@ -329,10 +330,9 @@ namespace Tetris
         /// Handles logic relating to the spawning of the Tetrimio.
         /// </summary>
         /// <param name="spawnpoint"></param>
-        /// <returns>Whether the spawn action can be completed successfully.</returns>
-        /// <remarks>
-        /// Currently only returns true.
-        /// </remarks>
+        /// <returns>
+        /// Whether the spawn action can be completed successfully.
+        /// </returns>
         public bool Spawn(Grid arena, Point spawnpoint)
         {
             Position = spawnpoint;
@@ -341,20 +341,24 @@ namespace Tetris
                 Position += (Vector) shiftSpawn;
             }
             currentStateNo = 0;
-            CurrentOccupied = ApplyPositionOffset(arena);
-            if (IsBlocked(arena, CurrentOccupied))
+            Point[] points = ApplyPositionOffset(arena);
+            if (IsBlocked(arena, points))
             {
                 return false;
             }
+            CurrentOccupied = points;
             return true;
         }
 
         /// <summary>
         /// Rotates the current active piece in a clockwise direction, handling rendering on the grid.
         /// </summary>
-        /// <param name="rotation">The number of clockwise right angled rotations to make.</param>
         /// <param name="arena">The Grid to rotate the Tetrimino in.</param>
-        public bool Rotate(int rotation, Grid arena)
+        /// <param name="rotation">The number of clockwise right angled rotations to make.</param>
+        /// <returns>
+        /// Whether the rotation is successful or not.
+        /// </returns>
+        public bool Rotate(Grid arena, int rotation)
         {
             // TODO:
             // When using rotation to go up, increase a rotationDelayCounter
@@ -407,6 +411,7 @@ namespace Tetris
             {
                 if (arena.Cells[(int)points[i].Y][(int)points[i].X].Fill != Grid.DefaultFill)
                 {
+                    // If it has spawned already, check it isn't overlapping with itself
                     if (CurrentOccupied == null || !CurrentOccupied.Contains(points[i]))
                     {
                         return true;
@@ -421,10 +426,33 @@ namespace Tetris
         /// </summary>
         /// <param name="rows">The number of rows in the grid to be drawn on.</param>
         /// <param name="cols">The number of rows in the grid to be drawn on.</param>
-        /// <returns>An array of points occupied by the Tetrimino.</returns>
+        /// <returns>
+        /// An array of points occupied by the Tetrimino.
+        /// </returns>
         public Point[] ApplyPositionOffset(Grid arena)
         {
             return ApplyOffset(arena, new Vector(Position.Value.X, Position.Value.Y));
+        }
+
+        /// <summary>
+        /// Attempts to move the piece horizontally.
+        /// </summary>
+        /// <param name="arena">The Grid to move the Tetrimino in.</param>
+        /// <param name="x">The horizontal displacement.</param>
+        /// <returns>
+        /// The new location as a set of points or null if unsuccessful.
+        /// </returns>
+        public Point[] Move(Grid arena, int x)
+        {
+            Point[] points = ApplyOffset(arena, new Vector(Position.Value.X + x, Position.Value.Y));
+            // If out of bounds or blocked by the movement of one cell horizontally
+            if (points == null || IsBlocked(arena, points))
+            {
+                return null;
+            }
+            CurrentOccupied = points;
+            Position += new Vector(x, 0);
+            return points;
         }
 
         /// <summary>
@@ -448,11 +476,49 @@ namespace Tetris
         }
 
         /// <summary>
+        /// Sets the cell to the bottom most place it can fall to.
+        /// </summary>
+        /// <param name="arena">The Grid to move the Tetrimino in.</param>
+        /// <returns>
+        /// The new location as a set of points.
+        /// </returns>
+        public Point[] HardDrop(Grid arena)
+        {
+            // From each point, scan down and find the minimum distance from them all
+            int[] distances = new int[] { 0, 0, 0, 0 };
+            for (int i = 0; i < CurrentOccupied.Length; i++)
+            {
+                // Scan down until the bottom, or another piece is detected
+                while (CurrentOccupied[i].Y - distances[i] >= 0)
+                {
+                    // If not empty, check if it is part of the current piece
+                    if (arena.Cells[(int)CurrentOccupied[i].Y - distances[i]][(int)CurrentOccupied[i].X]
+                    .Fill != Grid.DefaultFill)
+                    {
+                        if (!CurrentOccupied.Contains(
+                        new Point(CurrentOccupied[i].X, CurrentOccupied[i].Y - distances[i])))
+                        {
+                            break;
+                        }
+                    }
+                    distances[i]++;
+                }    
+            }
+            int minDistance = distances.Min() - 1;
+            CurrentOccupied = ApplyOffset(arena,
+                new Vector(Position.Value.X, Position.Value.Y - minDistance));
+            Position += new Vector(0, -minDistance);
+            return CurrentOccupied;
+        }
+
+        /// <summary>
         /// Applies a vector offset to the current state of the Tetrimino.
         /// </summary>
         /// <param name="arena">The Grid the piece is being handled in.</param>
         /// <param name="offset">The vector offset to be applied.</param>
-        /// <returns>The resulting points of the Tetrimino after applying the offset.</returns>
+        /// <returns>
+        /// The resulting points of the Tetrimino after applying the offset.
+        /// </returns>
         private Point[] ApplyOffset(Grid arena, Vector offset)
         {
             Point[] points = new Point[4];

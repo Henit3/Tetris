@@ -86,8 +86,17 @@ namespace Tetris
                 case Key.Enter:
                     Session.Start();
                     break;
-                case Key.Space:
+                case Key.W:
+                    Session.HardDrop();
+                    break;
+                case Key.A:
+                    Session.MoveLeft();
+                    break;
+                case Key.S:
                     Session.GameLoop();
+                    break;
+                case Key.D:
+                    Session.MoveRight();
                     break;
                 case Key.Left:
                     Session.RotatePieceCCW();
