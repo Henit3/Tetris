@@ -102,9 +102,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adfe37fd490ce86b425ef02c987fc21e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#adfe37fd490ce86b425ef02c987fc21e6">Game</a> (<a class="el" href="class_tetris_1_1_grid.html">Grid</a> arena, Point? spawn=null, Queue&lt; <a class="el" href="class_tetris_1_1_tetrimino.html">Tetrimino</a> &gt;? preQueue=null)</td></tr>
 <tr class="memdesc:adfe37fd490ce86b425ef02c987fc21e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alternate constructor for the game object taking in extra preset parameters.  <a href="class_tetris_1_1_game.html#adfe37fd490ce86b425ef02c987fc21e6">More...</a><br /></td></tr>
 <tr class="separator:adfe37fd490ce86b425ef02c987fc21e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5cd173b95ae1a0c4093a806a8db62c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#ab5cd173b95ae1a0c4093a806a8db62c2">Start</a> ()</td></tr>
-<tr class="memdesc:ab5cd173b95ae1a0c4093a806a8db62c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the game session, resetting all associated variables.  <a href="class_tetris_1_1_game.html#ab5cd173b95ae1a0c4093a806a8db62c2">More...</a><br /></td></tr>
-<tr class="separator:ab5cd173b95ae1a0c4093a806a8db62c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257a1686d85a0c38b1f9897c0c81c0a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a257a1686d85a0c38b1f9897c0c81c0a2">Start</a> (bool singleThreaded=false, bool clearPreset=true)</td></tr>
+<tr class="memdesc:a257a1686d85a0c38b1f9897c0c81c0a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the game session, resetting all associated variables.  <a href="class_tetris_1_1_game.html#a257a1686d85a0c38b1f9897c0c81c0a2">More...</a><br /></td></tr>
+<tr class="separator:a257a1686d85a0c38b1f9897c0c81c0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51a2f4a3998ecef603a90da9c23563ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a51a2f4a3998ecef603a90da9c23563ad">GameLoop</a> ()</td></tr>
 <tr class="memdesc:a51a2f4a3998ecef603a90da9c23563ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the game loop logic that will be repeatedly executed.  <a href="class_tetris_1_1_game.html#a51a2f4a3998ecef603a90da9c23563ad">More...</a><br /></td></tr>
 <tr class="separator:a51a2f4a3998ecef603a90da9c23563ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,6 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8064d168fdb24903d273fc45d690a265"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a8064d168fdb24903d273fc45d690a265">HardDrop</a> ()</td></tr>
 <tr class="memdesc:a8064d168fdb24903d273fc45d690a265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drops the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> to the last available position in the downward direction.  <a href="class_tetris_1_1_game.html#a8064d168fdb24903d273fc45d690a265">More...</a><br /></td></tr>
 <tr class="separator:a8064d168fdb24903d273fc45d690a265"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fca80ff3a1021aaa5c86a2df54d7965"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a8fca80ff3a1021aaa5c86a2df54d7965">SoftDrop</a> ()</td></tr>
+<tr class="memdesc:a8fca80ff3a1021aaa5c86a2df54d7965"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drops the piece one cell and resets the looper BackgroundWorker.  <a href="class_tetris_1_1_game.html#a8fca80ff3a1021aaa5c86a2df54d7965">More...</a><br /></td></tr>
+<tr class="separator:a8fca80ff3a1021aaa5c86a2df54d7965"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c821943110a40bcce723c6f5d73cf23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_game.html#a7c821943110a40bcce723c6f5d73cf23">MoveLeft</a> ()</td></tr>
 <tr class="memdesc:a7c821943110a40bcce723c6f5d73cf23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for MoveHorizontal in the left direction.  <a href="class_tetris_1_1_game.html#a7c821943110a40bcce723c6f5d73cf23">More...</a><br /></td></tr>
 <tr class="separator:a7c821943110a40bcce723c6f5d73cf23"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -353,14 +356,14 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="ab5cd173b95ae1a0c4093a806a8db62c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5cd173b95ae1a0c4093a806a8db62c2">&#9670;&nbsp;</a></span>Start()</h2>
+<a id="a8fca80ff3a1021aaa5c86a2df54d7965"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fca80ff3a1021aaa5c86a2df54d7965">&#9670;&nbsp;</a></span>SoftDrop()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Tetris.Game.Start </td>
+          <td class="memname">void Tetris.Game.SoftDrop </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -368,7 +371,45 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Drops the piece one cell and resets the looper BackgroundWorker. </p>
+
+</div>
+</div>
+<a id="a257a1686d85a0c38b1f9897c0c81c0a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a257a1686d85a0c38b1f9897c0c81c0a2">&#9670;&nbsp;</a></span>Start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tetris.Game.Start </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>singleThreaded</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>clearPreset</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p>Starts the game session, resetting all associated variables. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">singleThreaded</td><td>Whether the game should be run on a single thread.</td></tr>
+    <tr><td class="paramname">clearPreset</td><td>Whether the game should clear injected dependencies.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The parameters are used for testing purposes only, paired with injected dependencies. </p>
 
 </div>
 </div>

@@ -42,6 +42,9 @@ namespace Tetris
         /// </summary>
         public Grid Arena { get; set; }
 
+        /// <summary>
+        /// The game session holding all the main logic.
+        /// </summary>
         public Game Session { get; set; }
 
         /// <summary>
@@ -93,7 +96,7 @@ namespace Tetris
                     Session.MoveLeft();
                     break;
                 case Key.S:
-                    Session.GameLoop();
+                    Session.SoftDrop();
                     break;
                 case Key.D:
                     Session.MoveRight();

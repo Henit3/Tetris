@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 
 namespace Tetris
@@ -18,6 +20,16 @@ namespace Tetris
         /// The number of pieces dropped in this game session.
         /// </summary>
         public int Pieces { get; set; }
+
+        /// <summary>
+        /// Responsible for running the game loop on a timer.
+        /// </summary>
+        private BackgroundWorker looper;
+
+        /// <summary>
+        /// The maximum groundCounter before locking a piece.
+        /// </summary>
+        private static readonly int GroundLimit = 2;
 
         /// <summary>
         /// The point in the grid where pieces should spawn.
@@ -43,7 +55,7 @@ namespace Tetris
         /// <summary>
         /// Whether the game is in a playable state.
         /// </summary>
-        private bool isPlayable = true;
+        private bool isPlayable = false;
         /// <summary>
         /// The number of times an unsuccessful fall has been attempted, used to lock a piece.
         /// </summary>
@@ -92,16 +104,95 @@ namespace Tetris
         /// <summary>
         /// Starts the game session, resetting all associated variables.
         /// </summary>
-        public void Start()
+        /// <param name="singleThreaded">Whether the game should be run on a single thread.</param>
+        /// <param name="clearPreset">Whether the game should clear injected dependencies.</param>
+        /// <remarks>
+        /// The parameters are used for testing purposes only, paired with injected dependencies.
+        /// </remarks>
+        public void Start(bool singleThreaded = false, bool clearPreset = true)
         {
             /*Points = 0;*/
             Lines = 0;
             Pieces = 0;
-            arena.Reset();
             CurrentPiece = null;
             lastLocation = null;
-            pieceQueue.Clear();
             isPlayable = true;
+
+            if (clearPreset)
+            {
+                arena.Reset();
+                pieceQueue.Clear();
+            }
+            GameLoop();
+            if (!singleThreaded)
+            {
+                if (looper == null)
+                {
+                    looper = new BackgroundWorker
+                    {
+                        WorkerReportsProgress = true,
+                        WorkerSupportsCancellation = true
+                    };
+
+                    looper.DoWork += LooperExecute;
+                    looper.ProgressChanged += LooperUpdate;
+                    looper.RunWorkerCompleted += LooperComplete;
+                }
+                if (!looper.IsBusy)
+                {
+                    looper.RunWorkerAsync();
+                }
+            }
+        }
+
+        /// <summary>
+        /// The main loop that the BackgroundWorker will execute to give time between game loops.
+        /// </summary>
+        /// <param name="sender">The object raising the event.</param>
+        /// <param name="e">The event arguments provided.</param>
+        /// <remarks>
+        /// Cancelling the loop will effectively reset it as long the game isPlayable.
+        /// </remarks>
+        void LooperExecute(object sender, DoWorkEventArgs e)
+        {
+            while (isPlayable)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Thread.Sleep(100);
+                    if (looper.CancellationPending)
+                    {
+                        return;
+                    }
+                }
+                looper.ReportProgress(0);
+            }
+        }
+
+        /// <summary>
+        /// The update logic that the BackgroundWorker will execute to run the game loop.
+        /// </summary>
+        /// <param name="sender">The object raising the event.</param>
+        /// <param name="e">The event arguments provided.</param>
+        void LooperUpdate(object sender, ProgressChangedEventArgs e)
+        {
+            GameLoop();
+        }
+
+        /// <summary>
+        /// Logic that the BackgroundWorker will execute once finished with the loop.
+        /// </summary>
+        /// <param name="sender">The object raising the event.</param>
+        /// <param name="e">The event arguments provided.</param>
+        /// <remarks>
+        /// This restarts execution of the main loop unless the game is unplayable (it has ended).
+        /// </remarks>
+        void LooperComplete(object sender, EventArgs e)
+        {
+            if (isPlayable)
+            {
+                looper.RunWorkerAsync();
+            }
         }
 
         /// <summary>
@@ -116,20 +207,17 @@ namespace Tetris
             {
                 return;
             }
-            /*while (!hasLost)*/
+            if (CurrentPiece != null && !DropAndLock())
             {
-                if (CurrentPiece != null && !DropAndLock())
-                {
-                    return;
-                }
-
-                if (pieceQueue.Count == 0)
-                {
-                    GenerateBag();
-                }
-
-                CurrentPiece = SpawnPiece();
+                return;
             }
+
+            if (pieceQueue.Count == 0)
+            {
+                GenerateBag();
+            }
+
+            CurrentPiece = SpawnPiece();
         }
 
         /// <summary>
@@ -140,7 +228,6 @@ namespace Tetris
         /// </returns>
         public bool DropAndLock()
         {
-            // True if action required - there is no piece or the piece has been set
             if (CurrentPiece == null)
             {
                 return true;
@@ -148,7 +235,7 @@ namespace Tetris
             if (CurrentPiece.Fall(arena) == null)
             {
                 groundCounter++;
-                if (groundCounter > 3)
+                if (groundCounter > GroundLimit)
                 {
                     LockPiece();
                     return true;
@@ -170,7 +257,19 @@ namespace Tetris
             CurrentPiece.HardDrop(arena);
             RenderPiece(CurrentPiece);
             LockPiece();
-            // GameLoop();
+            GameLoop();
+        }
+
+        /// <summary>
+        /// Drops the piece one cell and resets the looper BackgroundWorker.
+        /// </summary>
+        public void SoftDrop()
+        {
+            if (looper != null && looper.IsBusy)
+            {
+                looper.CancelAsync();
+                GameLoop();
+            }
         }
 
         /// <summary>
@@ -262,6 +361,7 @@ namespace Tetris
             if (!piece.Spawn(arena, spawnpoint))
             {
                 isPlayable = false;
+                MessageBox.Show($"Game over: You cleared {Lines} lines!");
                 return null;
             }
             Pieces++;

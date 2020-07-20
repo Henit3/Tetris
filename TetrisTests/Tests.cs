@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,13 +15,47 @@ namespace TetrisTests
         private MainWindow mWindow;
         private ViewModel vModel;
 
-        private void SpawnPiece()
+        private void StartGame()
         {
-            vModel.KeyDown(Key.S);
+            vModel.Session.Start(true, false);
+        }
+        private void StepGame()
+        {
+            vModel.Session.GameLoop();
         }
         private void SetPiece()
         {
             vModel.KeyDown(Key.W);
+        }
+        private void Move(int x)
+        {
+            if (x == -1)
+            {
+                vModel.KeyDown(Key.A);
+            }
+            else if (x == 1)
+            {
+                vModel.KeyDown(Key.D);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        }
+        private void Rotate(int x)
+        {
+            if (x == -1)
+            {
+                vModel.KeyDown(Key.Left);
+            }
+            else if (x == 1)
+            {
+                vModel.KeyDown(Key.Right);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         [SetUp]
@@ -33,10 +68,10 @@ namespace TetrisTests
         [Test, Apartment(ApartmentState.STA)]
         public void TestBagGeneration()
         {
+            StartGame();
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
             for (int i = 0; i < 7; i++)
             {
-                SpawnPiece();
                 pieces.Add(vModel.Session.CurrentPiece);
                 SetPiece();
             }
@@ -49,10 +84,10 @@ namespace TetrisTests
             Queue<Tetrimino> queue = new Queue<Tetrimino>(Tetrimino.Types.Values.ToArray());
             vModel.Session = new Game(vModel.Arena, null, queue);
 
+            StartGame();
             HashSet<Tetrimino> pieces = new HashSet<Tetrimino>();
             for (int i = 0; i < 7; i++)
             {
-                SpawnPiece();
                 Tetrimino piece = vModel.Session.CurrentPiece;
                 Point[][] states = new Point[4][];
                 states[0] = piece.CurrentState;
@@ -60,14 +95,14 @@ namespace TetrisTests
                 // Get states during clockwise rotation
                 for (; stateNo < 4; stateNo++)
                 {
-                    vModel.KeyDown(Key.Right);
+                    Rotate(1);
                     states[stateNo] = piece.CurrentState;
                 }
                 // Check states during counterclockwise rotation
                 for (stateNo = 3; stateNo >= 0; stateNo--)
                 {
                     Assert.AreEqual(states[stateNo], piece.CurrentState);
-                    vModel.KeyDown(Key.Left);
+                    Rotate(-1);
                 }
                 pieces.Add(piece);
                 SetPiece();
@@ -86,15 +121,13 @@ namespace TetrisTests
             });
             vModel.Session = new Game(vModel.Arena, null, queue);
 
-            SpawnPiece();
+            StartGame();
             Tetrimino referencePiece = vModel.Session.CurrentPiece;
-            vModel.KeyDown(Key.Left);
+            Rotate(-1);
             SetPiece();
             Point[] rotatedState = referencePiece.CurrentState;
             // Shuffle back to the first piece
-            SpawnPiece();
             SetPiece();
-            SpawnPiece();
             Assert.AreNotEqual(rotatedState, vModel.Session.CurrentPiece.CurrentState);
         }
 
@@ -111,11 +144,11 @@ namespace TetrisTests
             }
             vModel.Session = new Game(vModel.Arena, null, queue);
 
-            SpawnPiece();
-            vModel.KeyDown(Key.Left);
+            StartGame();
+            Rotate(-1);
             for (int i = 0; i < 3; i++)
             {
-                vModel.KeyDown(Key.A);
+                Move(-1);
             }
             Assert.AreEqual(0, vModel.Session.Lines);
             SetPiece();
@@ -138,11 +171,11 @@ namespace TetrisTests
             }
             vModel.Session = new Game(vModel.Arena, null, queue);
 
-            SpawnPiece();
-            vModel.KeyDown(Key.Left);
+            StartGame();
+            Rotate(-1);
             for (int i = 0; i < 3; i++)
             {
-                vModel.KeyDown(Key.A);
+                Move(-1);
             }
             Assert.AreEqual(0, vModel.Session.Lines);
             SetPiece();
@@ -152,12 +185,12 @@ namespace TetrisTests
         [Test, Apartment(ApartmentState.STA)]
         public void TestPieceMovement()
         {
-            SpawnPiece();
+            StartGame();
             Point initialPosition = (Point)vModel.Session.CurrentPiece.Position;
-            vModel.KeyDown(Key.A);
+            Move(-1);
             Assert.AreEqual((Point)vModel.Session.CurrentPiece.Position,
                 initialPosition + new Vector(-1, 0));
-            vModel.KeyDown(Key.D);
+            Move(1);
             Assert.AreEqual((Point)vModel.Session.CurrentPiece.Position,
                 initialPosition);
         }
@@ -171,7 +204,7 @@ namespace TetrisTests
             });
             vModel.Session = new Game(vModel.Arena, null, queue);
 
-            SpawnPiece();
+            StartGame();
             Point initialPosition = (Point)vModel.Session.CurrentPiece.Position;
             Brush colour = vModel.Session.CurrentPiece.Colour;
             SetPiece();
