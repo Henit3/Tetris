@@ -104,6 +104,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aae88555e5fd8daa4de338c0e860088fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the board back to its original state with the default fill.  <a href="class_tetris_1_1_grid.html#aae88555e5fd8daa4de338c0e860088fe">More...</a><br /></td></tr>
 <tr class="separator:aae88555e5fd8daa4de338c0e860088fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a044989ceb2e09b754b06fe953a3375e4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_grid.html#a044989ceb2e09b754b06fe953a3375e4">Clean</a> ()</td></tr>
+<tr class="memdesc:a044989ceb2e09b754b06fe953a3375e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans the <a class="el" href="class_tetris_1_1_grid.html" title="The class representing the playable grid area.">Grid</a> of any complete lines, by calling ShiftLine().  <a href="class_tetris_1_1_grid.html#a044989ceb2e09b754b06fe953a3375e4">More...</a><br /></td></tr>
 <tr class="separator:a044989ceb2e09b754b06fe953a3375e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
@@ -120,6 +121,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a7333ed7cf393c8197bd40a93973e4332"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_grid.html#a7333ed7cf393c8197bd40a93973e4332">Rows</a><code> [get]</code></td></tr>
 <tr class="memdesc:a7333ed7cf393c8197bd40a93973e4332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of rows in the grid.  <a href="class_tetris_1_1_grid.html#a7333ed7cf393c8197bd40a93973e4332">More...</a><br /></td></tr>
 <tr class="separator:a7333ed7cf393c8197bd40a93973e4332"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76bb40e57f80537bdbc2bce327d35fb3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_grid.html#a76bb40e57f80537bdbc2bce327d35fb3">ExtraRows</a> = 1<code> [get]</code></td></tr>
+<tr class="memdesc:a76bb40e57f80537bdbc2bce327d35fb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of extra invisible rows on top of the grid.  <a href="class_tetris_1_1_grid.html#a76bb40e57f80537bdbc2bce327d35fb3">More...</a><br /></td></tr>
+<tr class="separator:a76bb40e57f80537bdbc2bce327d35fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07c88eb751035d6a74815934154839fb"><td class="memItemLeft" align="right" valign="top">Rectangle[][]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_grid.html#a07c88eb751035d6a74815934154839fb">Cells</a><code> [get]</code></td></tr>
 <tr class="memdesc:a07c88eb751035d6a74815934154839fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The contents of the grid, as drawn rectangles.  <a href="class_tetris_1_1_grid.html#a07c88eb751035d6a74815934154839fb">More...</a><br /></td></tr>
 <tr class="separator:a07c88eb751035d6a74815934154839fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,6 +190,10 @@ Properties</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Cleans the <a class="el" href="class_tetris_1_1_grid.html" title="The class representing the playable grid area.">Grid</a> of any complete lines, by calling ShiftLine(). </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of lines cleared. </dd></dl>
+<p>ShiftLine(int) </p>
 
 </div>
 </div>
@@ -279,6 +287,30 @@ Properties</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Number of columns in the grid. </p>
+
+</div>
+</div>
+<a id="a76bb40e57f80537bdbc2bce327d35fb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76bb40e57f80537bdbc2bce327d35fb3">&#9670;&nbsp;</a></span>ExtraRows</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Tetris.Grid.ExtraRows = 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Number of extra invisible rows on top of the grid. </p>
 
 </div>
 </div>

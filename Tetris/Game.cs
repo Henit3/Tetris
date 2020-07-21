@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Tetris
 {
@@ -111,6 +110,7 @@ namespace Tetris
         /// <summary>
         /// Starts the game session, resetting all associated variables.
         /// </summary>
+        /// <param name="testing">Whether the game is being run in a testing environment.</param>
         /// <param name="singleThreaded">Whether the game should be run on a single thread.</param>
         /// <param name="clearPreset">Whether the game should clear injected dependencies.</param>
         /// <remarks>
@@ -132,6 +132,7 @@ namespace Tetris
                 arena.Reset();
                 pieceQueue.Clear();
             }
+
             GameLoop();
 
             // Initialize looper thread if not single threaded, otherwise terminate it
@@ -349,10 +350,10 @@ namespace Tetris
         }
 
         /// <summary>
-        /// Wrapper for RotatePiece in the counterclockwise direction.
+        /// Wrapper for RotatePiece in the anticlockwise direction.
         /// </summary>
         /// <see cref="RotatePiece(int)"/>
-        public void RotatePieceCCW()
+        public void RotatePieceACW()
         {
             RotatePiece(-1);
         }

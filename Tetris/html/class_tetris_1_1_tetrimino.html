@@ -97,9 +97,9 @@ $(document).ready(function(){initNavTree('class_tetris_1_1_tetrimino.html',''); 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae25e2b4e6dd172868ce5ca58c91656ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_tetrimino.html#ae25e2b4e6dd172868ce5ca58c91656ab">Tetrimino</a> (char letter, Brush colour, Vector[][] _offsets, Point[][] _states, Vector? _shiftSpawn=null)</td></tr>
-<tr class="memdesc:ae25e2b4e6dd172868ce5ca58c91656ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor for the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> class.  <a href="class_tetris_1_1_tetrimino.html#ae25e2b4e6dd172868ce5ca58c91656ab">More...</a><br /></td></tr>
-<tr class="separator:ae25e2b4e6dd172868ce5ca58c91656ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad08bfbb0d2eab1ae880829a5ba125ab4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_tetrimino.html#ad08bfbb0d2eab1ae880829a5ba125ab4">Tetrimino</a> (char letter, Brush colour, Vector[][] offsets, Point[][] states, Vector? shiftSpawn=null, int startState=0)</td></tr>
+<tr class="memdesc:ad08bfbb0d2eab1ae880829a5ba125ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor for the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> class.  <a href="class_tetris_1_1_tetrimino.html#ad08bfbb0d2eab1ae880829a5ba125ab4">More...</a><br /></td></tr>
+<tr class="separator:ad08bfbb0d2eab1ae880829a5ba125ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d0be58eb9b33e15a7ce233209a41f71"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_tetrimino.html#a4d0be58eb9b33e15a7ce233209a41f71">Spawn</a> (<a class="el" href="class_tetris_1_1_grid.html">Grid</a> arena, Point spawnpoint)</td></tr>
 <tr class="memdesc:a4d0be58eb9b33e15a7ce233209a41f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles logic relating to the spawning of the Tetrimio.  <a href="class_tetris_1_1_tetrimino.html#a4d0be58eb9b33e15a7ce233209a41f71">More...</a><br /></td></tr>
 <tr class="separator:a4d0be58eb9b33e15a7ce233209a41f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,6 +124,8 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a956c068117b70669aa4b71974a98ecca"><td class="memItemLeft" align="right" valign="top">static Dictionary&lt; char, <a class="el" href="class_tetris_1_1_tetrimino.html">Tetrimino</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_tetrimino.html#a956c068117b70669aa4b71974a98ecca">Types</a> = new Dictionary&lt;char, <a class="el" href="class_tetris_1_1_tetrimino.html">Tetrimino</a>&gt;()</td></tr>
 <tr class="memdesc:a956c068117b70669aa4b71974a98ecca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps each of the Tetriminos with their corresponding letter shapes.  <a href="class_tetris_1_1_tetrimino.html#a956c068117b70669aa4b71974a98ecca">More...</a><br /></td></tr>
 <tr class="separator:a956c068117b70669aa4b71974a98ecca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a843ebe56b17efd551e59562c569827ae"><td class="memItemLeft" align="right" valign="top">static Vector[][]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tetris_1_1_tetrimino.html#a843ebe56b17efd551e59562c569827ae">DefaultOffsets</a></td></tr>
+<tr class="separator:a843ebe56b17efd551e59562c569827ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -146,8 +148,8 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents the 4-cell adjacently joined pieces that the player controls. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae25e2b4e6dd172868ce5ca58c91656ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae25e2b4e6dd172868ce5ca58c91656ab">&#9670;&nbsp;</a></span>Tetrimino()</h2>
+<a id="ad08bfbb0d2eab1ae880829a5ba125ab4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad08bfbb0d2eab1ae880829a5ba125ab4">&#9670;&nbsp;</a></span>Tetrimino()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -168,19 +170,25 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Vector&#160;</td>
-          <td class="paramname"><em>_offsets</em>[][], </td>
+          <td class="paramname"><em>offsets</em>[][], </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Point&#160;</td>
-          <td class="paramname"><em>_states</em>[][], </td>
+          <td class="paramname"><em>states</em>[][], </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Vector?&#160;</td>
-          <td class="paramname"><em>_shiftSpawn</em> = <code>null</code>&#160;</td>
+          <td class="paramname"><em>shiftSpawn</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>startState</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -194,9 +202,11 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">letter</td><td>The letter shape (type) of the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a>.</td></tr>
+    <tr><td class="paramname">offsets</td><td>The offsets used when rotating in the SRS system.</td></tr>
     <tr><td class="paramname">colour</td><td>The brush colour to be used when rendering it.</td></tr>
-    <tr><td class="paramname">_states</td><td>The states the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> cylces through in rotation.</td></tr>
-    <tr><td class="paramname">_shiftSpawn</td><td>Correction vector for spawning if one exists.</td></tr>
+    <tr><td class="paramname">states</td><td>The states the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> cylces through in rotation.</td></tr>
+    <tr><td class="paramname">shiftSpawn</td><td>Correction vector for spawning if one exists.</td></tr>
+    <tr><td class="paramname">startState</td><td>The state the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> should spawn in.</td></tr>
   </table>
   </dd>
 </dl>
@@ -224,8 +234,7 @@ Properties</h2></td></tr>
 <p>Gets the array of points describing the spaces the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> occupies. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">rows</td><td>The number of rows in the grid to be drawn on.</td></tr>
-    <tr><td class="paramname">cols</td><td>The number of rows in the grid to be drawn on.</td></tr>
+    <tr><td class="paramname">arena</td><td>The <a class="el" href="class_tetris_1_1_grid.html" title="The class representing the playable grid area.">Grid</a> to show the points occupied by the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -392,7 +401,8 @@ Properties</h2></td></tr>
 <p>Handles logic relating to the spawning of the Tetrimio. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">spawnpoint</td><td></td></tr>
+    <tr><td class="paramname">arena</td><td>The <a class="el" href="class_tetris_1_1_grid.html" title="The class representing the playable grid area.">Grid</a> the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> will spawn in.</td></tr>
+    <tr><td class="paramname">spawnpoint</td><td>The position to spawn the <a class="el" href="class_tetris_1_1_tetrimino.html" title="Represents the 4-cell adjacently joined pieces that the player controls.">Tetrimino</a> at.</td></tr>
   </table>
   </dd>
 </dl>
@@ -401,6 +411,28 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a843ebe56b17efd551e59562c569827ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a843ebe56b17efd551e59562c569827ae">&#9670;&nbsp;</a></span>DefaultOffsets</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Vector [][] Tetris.Tetrimino.DefaultOffsets</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a956c068117b70669aa4b71974a98ecca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a956c068117b70669aa4b71974a98ecca">&#9670;&nbsp;</a></span>Types</h2>
 

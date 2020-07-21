@@ -89,7 +89,7 @@ namespace Tetris
                 case Key.Enter:
                     Session.Start();
                     break;
-                case Key.Oem5: // Pipe | Backslash
+                case Key.Oem5: // For testing
                     Session.Start(false, true);
                     break;
                 case Key.W:
@@ -105,7 +105,7 @@ namespace Tetris
                     Session.MoveRight();
                     break;
                 case Key.Left:
-                    Session.RotatePieceCCW();
+                    Session.RotatePieceACW();
                     break;
                 case Key.Right:
                     Session.RotatePieceCW();

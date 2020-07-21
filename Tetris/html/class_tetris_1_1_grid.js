@@ -6,5 +6,6 @@ var class_tetris_1_1_grid =
     [ "DefaultFill", "class_tetris_1_1_grid.html#a8d8d0fcd3532f8d9d60cde1b129ab92e", null ],
     [ "Cells", "class_tetris_1_1_grid.html#a07c88eb751035d6a74815934154839fb", null ],
     [ "Cols", "class_tetris_1_1_grid.html#ac288b52bcdc00173e518588656b65b57", null ],
+    [ "ExtraRows", "class_tetris_1_1_grid.html#a76bb40e57f80537bdbc2bce327d35fb3", null ],
     [ "Rows", "class_tetris_1_1_grid.html#a7333ed7cf393c8197bd40a93973e4332", null ]
 ];

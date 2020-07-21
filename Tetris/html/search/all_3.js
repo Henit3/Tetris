@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fall_14',['Fall',['../class_tetris_1_1_tetrimino.html#a59854c9592a9bb91434dc79f9c390e36',1,'Tetris::Tetrimino']]]
+  ['extrarows_15',['ExtraRows',['../class_tetris_1_1_grid.html#a76bb40e57f80537bdbc2bce327d35fb3',1,'Tetris::Grid']]]
 ];

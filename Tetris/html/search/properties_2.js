@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['isactive_101',['IsActive',['../class_tetris_1_1_view_model.html#ae5b8481d2f78eed93c6d943a7ee48f74',1,'Tetris::ViewModel']]]
+  ['extrarows_104',['ExtraRows',['../class_tetris_1_1_grid.html#a76bb40e57f80537bdbc2bce327d35fb3',1,'Tetris::Grid']]]
 ];

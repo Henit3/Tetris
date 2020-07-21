@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['isactive_22',['IsActive',['../class_tetris_1_1_view_model.html#ae5b8481d2f78eed93c6d943a7ee48f74',1,'Tetris::ViewModel']]]
+  ['harddrop_23',['HardDrop',['../class_tetris_1_1_game.html#a8064d168fdb24903d273fc45d690a265',1,'Tetris.Game.HardDrop()'],['../class_tetris_1_1_tetrimino.html#a3c2bcced045fffdc46f3beaaefe68677',1,'Tetris.Tetrimino.HardDrop()']]]
 ];

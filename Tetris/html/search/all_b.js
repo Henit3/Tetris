@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['reset_36',['Reset',['../class_tetris_1_1_grid.html#aae88555e5fd8daa4de338c0e860088fe',1,'Tetris::Grid']]],
-  ['rotate_37',['Rotate',['../class_tetris_1_1_tetrimino.html#a2d81cfb5144a1ac0df9a3062ffd69c0b',1,'Tetris::Tetrimino']]],
-  ['rotatepiececcw_38',['RotatePieceCCW',['../class_tetris_1_1_game.html#a40d4c4236c6f92b47377ae929a08f204',1,'Tetris::Game']]],
-  ['rotatepiececw_39',['RotatePieceCW',['../class_tetris_1_1_game.html#ab04b5afd6cb07251dab46529007eb636',1,'Tetris::Game']]],
-  ['rows_40',['Rows',['../class_tetris_1_1_grid.html#a7333ed7cf393c8197bd40a93973e4332',1,'Tetris::Grid']]]
+  ['pieces_35',['Pieces',['../class_tetris_1_1_game.html#a25d0fadba6209c1383aab2b5b1b9d1f2',1,'Tetris::Game']]],
+  ['position_36',['Position',['../class_tetris_1_1_tetrimino.html#a717dbdfc6596c39095944587b84e40c7',1,'Tetris::Tetrimino']]],
+  ['propertychanged_37',['PropertyChanged',['../class_tetris_1_1_view_model.html#a0a13cf50c2f7d8497aec2a7b0f64989a',1,'Tetris::ViewModel']]]
 ];

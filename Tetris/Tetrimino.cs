@@ -312,6 +312,7 @@ namespace Tetris
         /// The constructor for the Tetrimino class.
         /// </summary>
         /// <param name="letter">The letter shape (type) of the Tetrimino.</param>
+        /// <param name="offsets">The offsets used when rotating in the SRS system.</param>
         /// <param name="colour">The brush colour to be used when rendering it.</param>
         /// <param name="states">The states the Tetrimino cylces through in rotation.</param>
         /// <param name="shiftSpawn">Correction vector for spawning if one exists.</param>
@@ -433,8 +434,7 @@ namespace Tetris
         /// <summary>
         /// Gets the array of points describing the spaces the Tetrimino occupies.
         /// </summary>
-        /// <param name="rows">The number of rows in the grid to be drawn on.</param>
-        /// <param name="cols">The number of rows in the grid to be drawn on.</param>
+        /// <param name="arena">The Grid to show the points occupied by the Tetrimino.</param>
         /// <returns>
         /// An array of points occupied by the Tetrimino.
         /// </returns>

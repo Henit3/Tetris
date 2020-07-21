@@ -25,12 +25,13 @@ namespace Tetris
         /// Number of columns in the grid.
         /// </summary>
         public int Cols { get; }
-
         /// <summary>
         /// Number of rows in the grid.
         /// </summary>
         public int Rows { get; }
-
+        /// <summary>
+        /// Number of extra invisible rows on top of the grid.
+        /// </summary>
         public int ExtraRows { get; } = 1;
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace Tetris
         /// </summary>
         public void Reset()
         {
-            for (int row = 0; row < Rows; row++)
+            for (int row = 0; row < Rows + ExtraRows; row++)
             {
                 for (int col = 0; col < Cols; col++)
                 {
@@ -86,10 +87,17 @@ namespace Tetris
             }
         }
 
+        /// <summary>
+        /// Cleans the Grid of any complete lines, by calling ShiftLine().
+        /// </summary>
+        /// <returns>
+        /// The number of lines cleared.
+        /// </returns>
+        /// <see cref="ShiftLine(int)"/>
         public int Clean()
         {
             int count = 0;
-            for (int row = 0; row < Rows; row++)
+            for (int row = 0; row < Rows + ExtraRows; row++)
             {
                 bool filled = true;
                 for (int col = 0; col < Cols; col++)
@@ -112,10 +120,17 @@ namespace Tetris
             return count;
         }
 
+        /// <summary>
+        /// Shifts all rows' contents down recursively.
+        /// </summary>
+        /// <param name="row">The row to start shifting from.</param>
+        /// <returns>
+        /// An array of the colours in the row above.
+        /// </returns>
         private Brush[] ShiftLine(int row)
         {
             Brush[] output = new Brush[Cols];
-            if (row == Rows - 1)
+            if (row == Rows + ExtraRows - 1)
             {
                 // Clear this one
                 for (int col = 0; col < Cols; col++)
