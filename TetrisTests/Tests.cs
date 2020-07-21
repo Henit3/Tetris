@@ -83,6 +83,42 @@ namespace TetrisTests
             }
         }
 
+        private struct TestData
+        {
+            public Tetrimino[] TestPiece;
+            public string[] InputArena;
+            public Point SpawnPoint;
+            public int Rotation;
+            public string[] OutputArena;
+
+            public TestData(Tetrimino[] testPiece, string[] inputArena, Point spawnPoint,
+                int rotation, string[] outputArena)
+            {
+                TestPiece = testPiece;
+                InputArena = inputArena;
+                SpawnPoint = spawnPoint;
+                Rotation = rotation;
+                OutputArena = outputArena;
+            }
+        }
+
+        private void AssertArenaState(string[] arena, Brush pieceColour)
+        {
+            for (int row = 0; row < arena.Length; row++)
+            {
+                for (int col = 0; col < arena[row].Length; col++)
+                {
+                    Assert.AreEqual((arena[row][col]) switch
+                    {
+                        ' ' => Grid.DefaultFill,
+                        '#' => Brushes.Black,
+                        'O' => pieceColour,
+                        _ => throw new ArgumentException(),
+                    }, vModel.Arena.Cells[arena.Length - row - 1][col].Fill);
+                }
+            }
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -215,12 +251,6 @@ namespace TetrisTests
 
         private void TestKick(TestData testCase)
         {
-            // Give the queue input (holds piece)
-            // Give the arena input (sets up environment)
-            // Give the spawnpoint? (allows easier placement)
-            // Give initial rotation?? (construct piece with initial state != 0)
-            // Give the rotation (allows easy testing)
-            // Give the expected output (asserts output)
             Queue<Tetrimino> queue = new Queue<Tetrimino>(testCase.TestPiece);
             SetUpArena(testCase.InputArena);
             vModel.Session = new Game(vModel.Arena, testCase.SpawnPoint, queue);
@@ -229,30 +259,11 @@ namespace TetrisTests
             Rotate(testCase.Rotation);
             SetPiece();
 
-            AssertArenaState(testCase.OutputArena);
-        }
-
-        private struct TestData
-        {
-            public Tetrimino[] TestPiece;
-            public string[] InputArena;
-            public Point SpawnPoint;
-            public int Rotation;
-            public string[] OutputArena;
-
-            public TestData(Tetrimino[] testPiece, string[] inputArena, Point spawnPoint,
-                int rotation, string[] outputArena)
-            {
-                TestPiece = testPiece;
-                InputArena = inputArena;
-                SpawnPoint = spawnPoint;
-                Rotation = rotation;
-                OutputArena = outputArena;
-            }
+            AssertArenaState(testCase.OutputArena, testCase.TestPiece[0].Colour);
         }
 
         [Test, Apartment(ApartmentState.STA)]
-        public void TestKicksL()
+        public void TestKicksDefault0()
         {
             TestData[] testCases = new TestData[]
             {
@@ -261,9 +272,9 @@ namespace TetrisTests
                     new Tetrimino[] { Tetrimino.Types['L'] },
                     null, new Point(3, 2), 1, new string[]
                     {
-                        "    #     ",
-                        "    #     ",
-                        "    ##    "
+                        "    O     ",
+                        "    O     ",
+                        "    OO    "
                     }
                 ), new TestData // (-1, 0)
                 (
@@ -273,9 +284,9 @@ namespace TetrisTests
                         "     #    "
                     }, new Point(3, 2), 1, new string[]
                     {
-                        "   #     ",
-                        "   #     ",
-                        "   ###   "
+                        "   O     ",
+                        "   O     ",
+                        "   OO#   "
                     }
                 ), new TestData // (-1, 1)
                 (
@@ -286,9 +297,9 @@ namespace TetrisTests
                         "          "
                     }, new Point(3, 1), 1, new string[]
                     {
-                        "   #      ",
-                        "   ##     ",
-                        "   ##     "
+                        "   O      ",
+                        "   O#     ",
+                        "   OO     "
                     }
                 ), new TestData // (0, -2)
                 (
@@ -304,9 +315,9 @@ namespace TetrisTests
                     {
                         "   ##     ",
                         "          ",
-                        "    #     ",
-                        "    #     ",
-                        "    ##    "
+                        "    O     ",
+                        "    O     ",
+                        "    OO    "
                     }
                 ), new TestData // (-1, -2)
                 (
@@ -322,9 +333,9 @@ namespace TetrisTests
                     {
                         "   ##     ",
                         "          ",
-                        "   ##     ",
-                        "   #      ",
-                        "   ##     "
+                        "   O#     ",
+                        "   O      ",
+                        "   OO     "
                     }
                 )
             };
@@ -335,27 +346,332 @@ namespace TetrisTests
             }
         }
 
-        private void AssertArenaState(string[] arena)
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksDefaultR()
         {
-            for (int row = 0; row < arena.Length; row++)
+            Tetrimino LRight = new Tetrimino('L', Brushes.Orange, Tetrimino.DefaultOffsets, new Point[][]
             {
-                for (int col = 0; col < arena[row].Length; col++)
-                {
-                    if (arena[row][col] == '#')
-                    {
-                        Assert.AreNotEqual(Grid.DefaultFill,
-                        vModel.Arena.Cells[arena.Length - row - 1][col].Fill);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(Grid.DefaultFill,
-                        vModel.Arena.Cells[arena.Length - row - 1][col].Fill);
-                    }
+                new Point[4] { // L on its left
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(2, 0),
+                    new Point(2, -1)
+                }, new Point[4] { // L upright
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -2)
+                }, new Point[4] { // L on its right
+                    new Point(0, -1),
+                    new Point(0, -2),
+                    new Point(1, -1),
+                    new Point(2, -1)
+                }, new Point[4] { // L upside down
+                    new Point(0, 0),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2)
                 }
+            }, null, 1);
+
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    new Tetrimino[] { LRight },
+                    null, new Point(3, 2), 1, new string[]
+                    {
+                        "   OOO    ",
+                        "   O      "
+                    }
+                ), new TestData // (-1, 0)
+                (
+                    new Tetrimino[] { LRight },
+                    new string[]
+                    {
+                        "   #      "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "    OOO   ",
+                        "   #O     "
+                    }
+                ), new TestData // (-1, 1)
+                (
+                    new Tetrimino[] { LRight },
+                    new string[]
+                    {
+                        "     #    ",
+                        "   #      ",
+                        "          "
+                    }, new Point(3, 3), 1, new string[]
+                    {
+                        "     #    ",
+                        "   #OOO   ",
+                        "    O     "
+                    }
+                ), new TestData // (0, -2)
+                (
+                    new Tetrimino[] { LRight },
+                    new string[]
+                    {
+                        "   # #    ",
+                        "   #      ",
+                        "    #     "
+                    }, new Point(3, 3), 1, new string[]
+                    {
+                        "   OOO    ",
+                        "   O      ",
+                        "   # #    ",
+                        "   #      ",
+                        "    #     "
+                    }
+                ), new TestData // (-1, -2)
+                (
+                    new Tetrimino[] { LRight },
+                    new string[]
+                    {
+                        "   # #    ",
+                        "     #    ",
+                        "   #      ",
+                        "    #     "
+                    }, new Point(3, 3), 1, new string[]
+                    {
+                        "    OOO   ",
+                        "   #O#    ",
+                        "     #    ",
+                        "   #      ",
+                        "    #     "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase);
             }
         }
 
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksDefault2()
+        {
+            Tetrimino LUpsideDown = new Tetrimino('L', Brushes.Orange, Tetrimino.DefaultOffsets, new Point[][]
+            {
+                new Point[4] { // L on its left
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(2, 0),
+                    new Point(2, -1)
+                }, new Point[4] { // L upright
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -2)
+                }, new Point[4] { // L on its right
+                    new Point(0, -1),
+                    new Point(0, -2),
+                    new Point(1, -1),
+                    new Point(2, -1)
+                }, new Point[4] { // L upside down
+                    new Point(0, 0),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2)
+                }
+            }, null, 2);
 
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    new Tetrimino[] { LUpsideDown },
+                    null, new Point(3, 2), 1, new string[]
+                    {
+                        "   OO     ",
+                        "    O     ",
+                        "    O     "
+                    }
+                ), new TestData // (-1, 0)
+                (
+                    new Tetrimino[] { LUpsideDown },
+                    new string[]
+                    {
+                        "   #      ",
+                        "          ",
+                        "          "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "   #OO    ",
+                        "     O    ",
+                        "     O    "
+                    }
+                ), new TestData // (-1, 1)
+                (
+                    new Tetrimino[] { LUpsideDown },
+                    new string[]
+                    {
+                        "   ##     ",
+                        "          ",
+                        "          "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "    OO    ",
+                        "   ##O    ",
+                        "     O    ",
+                        "          "
+                    }
+                ), new TestData // (0, -2)
+                (
+                    new Tetrimino[] { LUpsideDown },
+                    new string[]
+                    {
+                        "   ###    ",
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          "
+                    }, new Point(3, 4), 1, new string[]
+                    {
+                        "   ###    ",
+                        "          ",
+                        "   OO     ",
+                        "    O     ",
+                        "    O     "
+                    }
+                ), new TestData // (-1, -2)
+                (
+                    new Tetrimino[] { LUpsideDown },
+                    new string[]
+                    {
+                        "   ###    ",
+                        "          ",
+                        "          ",
+                        "    #     ",
+                        "          "
+                    }, new Point(3, 4), 1, new string[]
+                    {
+                        "   ###    ",
+                        "          ",
+                        "    OO    ",
+                        "    #O    ",
+                        "     O    "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase);
+            }
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksDefaultL()
+        {
+            Tetrimino LLeft = new Tetrimino('L', Brushes.Orange, Tetrimino.DefaultOffsets, new Point[][]
+            {
+                new Point[4] { // L on its left
+                    new Point(0, -1),
+                    new Point(1, -1),
+                    new Point(2, 0),
+                    new Point(2, -1)
+                }, new Point[4] { // L upright
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -2)
+                }, new Point[4] { // L on its right
+                    new Point(0, -1),
+                    new Point(0, -2),
+                    new Point(1, -1),
+                    new Point(2, -1)
+                }, new Point[4] { // L upside down
+                    new Point(0, 0),
+                    new Point(1, 0),
+                    new Point(1, -1),
+                    new Point(1, -2)
+                }
+            }, null, 3);
+
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    new Tetrimino[] { LLeft },
+                    new string[]
+                    {
+                        "     #    "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "     O    ",
+                        "   OOO    ",
+                        "     #    "
+                    }
+                ), new TestData // (-1, 0)
+                (
+                    new Tetrimino[] { LLeft },
+                    new string[]
+                    {
+                        "     #    ",
+                        "     #    "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "    O#    ",
+                        "  OOO#    "
+                    }
+                ), new TestData // (-1, 1)
+                (
+                    new Tetrimino[] { LLeft },
+                    new string[]
+                    {
+                        "     #    ",
+                        "  #  #    "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "    O     ",
+                        "  OOO#    ",
+                        "  #  #    "
+                    }
+                ), new TestData // (0, -2)
+                (
+                    new Tetrimino[] { LLeft },
+                    new string[]
+                    {
+                        "     #   ",
+                        "  #  #    ",
+                        "  #  #    "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "     O    ",
+                        "   OOO    ",
+                        "     #    ",
+                        "  #  #    ",
+                        "  #  #    "
+                    }
+                ), new TestData // (-1, -2)
+                (
+                    new Tetrimino[] { LLeft },
+                    new string[]
+                    {
+                        "     #    ",
+                        "  #  #    ",
+                        "  #  #    ",
+                        "  #  #    "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "    O     ",
+                        "  OOO#    ",
+                        "  #  #    ",
+                        "  #  #    ",
+                        "  #  #    "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase);
+            }
+        }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestPieceMovement()

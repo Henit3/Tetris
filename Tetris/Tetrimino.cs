@@ -329,7 +329,7 @@ namespace Tetris
             this.shiftSpawn = shiftSpawn;
             this.startState = startState;
             Position = null;
-            Types.Add(letter, this);
+            Types.TryAdd(letter, this);
         }
 
         /// <summary>
