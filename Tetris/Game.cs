@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Tetris
 {
@@ -59,6 +60,10 @@ namespace Tetris
         /// </summary>
         private bool isPlayable = false;
         /// <summary>
+        /// Whether the game session is part of testing.
+        /// </summary>
+        private bool testing = false;
+        /// <summary>
         /// The number of times an unsuccessful fall has been attempted, used to lock a piece.
         /// </summary>
         private int groundCounter = 0;
@@ -111,7 +116,7 @@ namespace Tetris
         /// <remarks>
         /// The parameters are used for testing purposes only, paired with injected dependencies.
         /// </remarks>
-        public void Start(bool singleThreaded = false, bool clearPreset = true)
+        public void Start(bool testing = false, bool singleThreaded = false, bool clearPreset = true)
         {
             /*Points = 0;*/
             Lines = 0;
@@ -119,6 +124,7 @@ namespace Tetris
             CurrentPiece = null;
             lastLocation = null;
             isPlayable = true;
+            this.testing = testing;
 
             // Clear the preset parameters in use unless using injected dependencies.
             if (clearPreset)
@@ -272,7 +278,10 @@ namespace Tetris
             CurrentPiece.HardDrop(arena);
             RenderPiece(CurrentPiece);
             LockPiece();
-            GameLoop();
+            if (!testing)
+            {
+                GameLoop();
+            }
         }
 
         /// <summary>
@@ -376,7 +385,10 @@ namespace Tetris
             if (!piece.Spawn(arena, spawnpoint))
             {
                 isPlayable = false;
-                MessageBox.Show($"Game over: You cleared {Lines} lines!");
+                if (!testing)
+                {
+                    MessageBox.Show($"Game over: You cleared {Lines} lines!");
+                }
                 return null;
             }
             Pieces++;

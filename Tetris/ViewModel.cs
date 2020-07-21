@@ -90,7 +90,7 @@ namespace Tetris
                     Session.Start();
                     break;
                 case Key.Oem5: // Pipe | Backslash
-                    Session.Start(true);
+                    Session.Start(false, true);
                     break;
                 case Key.W:
                     Session.HardDrop();

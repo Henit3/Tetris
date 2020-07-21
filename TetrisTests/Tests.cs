@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace TetrisTests
 
         private void StartGame()
         {
-            vModel.Session.Start(true, false);
+            vModel.Session.Start(true, true, false);
         }
         private void StepGame()
         {
@@ -54,7 +55,31 @@ namespace TetrisTests
             }
             else
             {
+                if (x == 0)
+                {
+                    return;
+                }
                 throw new ArgumentException();
+            }
+        }
+        private void SetUpArena(string[] arena)
+        {
+            vModel.Arena.Reset();
+            if (arena == null)
+            {
+                return;
+            }
+            for (int row = 0; row < arena.Length; row++)
+            {
+                for (int col = 0; col < arena[row].Length; col++)
+                {
+                    vModel.Arena.Cells[arena.Length - row - 1][col].Fill = (arena[row][col]) switch
+                    {
+                        ' ' => Grid.DefaultFill,
+                        '#' => Brushes.Black,
+                        _ => throw new ArgumentException(),
+                    };
+                }
             }
         }
 
@@ -74,6 +99,8 @@ namespace TetrisTests
             {
                 pieces.Add(vModel.Session.CurrentPiece);
                 SetPiece();
+                vModel.Arena.Reset();
+                StepGame();
             }
             Assert.AreEqual(pieces.Count, 7);
         }
@@ -106,6 +133,8 @@ namespace TetrisTests
                 }
                 pieces.Add(piece);
                 SetPiece();
+                vModel.Arena.Reset();
+                StepGame();
             }
             Assert.AreEqual(7, pieces.Count);
         }
@@ -126,8 +155,10 @@ namespace TetrisTests
             Rotate(-1);
             Point[] rotatedState = referencePiece.CurrentState;
             SetPiece();
+            StepGame();
             // Shuffle back to the first piece
             SetPiece();
+            StepGame();
             Assert.AreNotEqual(rotatedState, vModel.Session.CurrentPiece.CurrentState);
         }
 
@@ -138,10 +169,10 @@ namespace TetrisTests
             {
                 Tetrimino.Types['I']
             });
-            for (int col = 1; col < vModel.Arena.Cols; col++)
+            SetUpArena(new string[]
             {
-                vModel.Arena.Cells[0][col].Fill = Brushes.Black;
-            }
+                " #########"
+            });
             vModel.Session = new Game(vModel.Arena, null, queue);
 
             StartGame();
@@ -162,13 +193,13 @@ namespace TetrisTests
             {
                 Tetrimino.Types['I']
             });
-            for (int row = 0; row < 4; row++)
+            SetUpArena(new string[]
             {
-                for (int col = 1; col < vModel.Arena.Cols; col++)
-                {
-                    vModel.Arena.Cells[row][col].Fill = Brushes.Black;
-                }
-            }
+                " #########",
+                " #########",
+                " #########",
+                " #########"
+            });
             vModel.Session = new Game(vModel.Arena, null, queue);
 
             StartGame();
@@ -181,6 +212,150 @@ namespace TetrisTests
             SetPiece();
             Assert.AreEqual(4, vModel.Session.Lines);
         }
+
+        private void TestKick(TestData testCase)
+        {
+            // Give the queue input (holds piece)
+            // Give the arena input (sets up environment)
+            // Give the spawnpoint? (allows easier placement)
+            // Give initial rotation?? (construct piece with initial state != 0)
+            // Give the rotation (allows easy testing)
+            // Give the expected output (asserts output)
+            Queue<Tetrimino> queue = new Queue<Tetrimino>(testCase.TestPiece);
+            SetUpArena(testCase.InputArena);
+            vModel.Session = new Game(vModel.Arena, testCase.SpawnPoint, queue);
+
+            StartGame();
+            Rotate(testCase.Rotation);
+            SetPiece();
+
+            AssertArenaState(testCase.OutputArena);
+        }
+
+        private struct TestData
+        {
+            public Tetrimino[] TestPiece;
+            public string[] InputArena;
+            public Point SpawnPoint;
+            public int Rotation;
+            public string[] OutputArena;
+
+            public TestData(Tetrimino[] testPiece, string[] inputArena, Point spawnPoint,
+                int rotation, string[] outputArena)
+            {
+                TestPiece = testPiece;
+                InputArena = inputArena;
+                SpawnPoint = spawnPoint;
+                Rotation = rotation;
+                OutputArena = outputArena;
+            }
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksL()
+        {
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    new Tetrimino[] { Tetrimino.Types['L'] },
+                    null, new Point(3, 2), 1, new string[]
+                    {
+                        "    #     ",
+                        "    #     ",
+                        "    ##    "
+                    }
+                ), new TestData // (-1, 0)
+                (
+                    new Tetrimino[] { Tetrimino.Types['L'] },
+                    new string[]
+                    {
+                        "     #    "
+                    }, new Point(3, 2), 1, new string[]
+                    {
+                        "   #     ",
+                        "   #     ",
+                        "   ###   "
+                    }
+                ), new TestData // (-1, 1)
+                (
+                    new Tetrimino[] { Tetrimino.Types['L'] },
+                    new string[]
+                    {
+                        "    #     ",
+                        "          "
+                    }, new Point(3, 1), 1, new string[]
+                    {
+                        "   #      ",
+                        "   ##     ",
+                        "   ##     "
+                    }
+                ), new TestData // (0, -2)
+                (
+                    new Tetrimino[] { Tetrimino.Types['L'] },
+                    new string[]
+                    {
+                        "   ##     ",
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          "
+                    }, new Point(3, 4), 1, new string[]
+                    {
+                        "   ##     ",
+                        "          ",
+                        "    #     ",
+                        "    #     ",
+                        "    ##    "
+                    }
+                ), new TestData // (-1, -2)
+                (
+                    new Tetrimino[] { Tetrimino.Types['L'] },
+                    new string[]
+                    {
+                        "   ##     ",
+                        "          ",
+                        "    #     ",
+                        "          ",
+                        "          "
+                    }, new Point(3, 4), 1, new string[]
+                    {
+                        "   ##     ",
+                        "          ",
+                        "   ##     ",
+                        "   #      ",
+                        "   ##     "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase);
+            }
+        }
+
+        private void AssertArenaState(string[] arena)
+        {
+            for (int row = 0; row < arena.Length; row++)
+            {
+                for (int col = 0; col < arena[row].Length; col++)
+                {
+                    if (arena[row][col] == '#')
+                    {
+                        Assert.AreNotEqual(Grid.DefaultFill,
+                        vModel.Arena.Cells[arena.Length - row - 1][col].Fill);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(Grid.DefaultFill,
+                        vModel.Arena.Cells[arena.Length - row - 1][col].Fill);
+                    }
+                }
+            }
+        }
+
+
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestPieceMovement()
@@ -200,7 +375,7 @@ namespace TetrisTests
         {
             Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[]
             {
-                Tetrimino.Types['I']
+                Tetrimino.Types['J']
             });
             vModel.Session = new Game(vModel.Arena, null, queue);
 

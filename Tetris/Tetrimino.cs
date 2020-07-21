@@ -15,6 +15,7 @@ namespace Tetris
         /// Maps each of the Tetriminos with their corresponding letter shapes.
         /// </summary>
         public static Dictionary<char, Tetrimino> Types = new Dictionary<char, Tetrimino>();
+        public static Vector[][] DefaultOffsets;
 
         /// <summary>
         /// A unit vector in the down direction used to assist piece falling.
@@ -26,7 +27,7 @@ namespace Tetris
         /// </summary>
         static Tetrimino()
         {
-            Vector[][] defaultOffsets = new Vector[][]
+            DefaultOffsets = new Vector[][]
             {
                 new Vector[4] { // R => 2 is R - 2, which is R
                     new Vector(0, 0),
@@ -40,106 +41,106 @@ namespace Tetris
                     new Vector(-1, 0)
                 }, new Vector[4] {
                     new Vector(0, 0),
-                    new Vector(1, 1),
+                    new Vector(1, -1),
                     new Vector(0, 0), // (1, 1)
-                    new Vector(-1, 1)
+                    new Vector(-1, -1)
                 }, new Vector[4] {
                     new Vector(0, 0),
-                    new Vector(0, -2),
+                    new Vector(0, 2),
                     new Vector(0, 0), // (0, -2)
-                    new Vector(0, -2)
+                    new Vector(0, 2)
                 }, new Vector[4] {
                     new Vector(0, 0),
-                    new Vector(1, -2),
+                    new Vector(1, 2),
                     new Vector(0, 0), // (1, -2)
-                    new Vector(-1, -2)
+                    new Vector(-1, 2)
                 }
             };
             new Tetrimino('O', Brushes.Yellow, new Vector[][]
             {
                 new Vector[4] {
                     new Vector(0, 0),
-                    new Vector(0, 1),
-                    new Vector(-1, 1),
+                    new Vector(0, -1),
+                    new Vector(-1, -1),
                     new Vector(-1, 0)
                 }
             }, new Point[][]
             {
-                new Point[4] {
-                    new Point(1, -1),
-                    new Point(1, -2),
-                    new Point(2, -1),
-                    new Point(2, -2)
-                }, new Point[4] {
+                new Point[4] { // Top Right
                     new Point(1, 0),
                     new Point(1, -1),
                     new Point(2, 0),
                     new Point(2, -1)
-                }, new Point[4] {
-                    new Point(0, 0),
-                    new Point(0, -1),
-                    new Point(1, 0),
-                    new Point(1, -1)
-                }, new Point[4] {
+                }, new Point[4] { // Bottom Right
+                    new Point(1, -1),
+                    new Point(1, -2),
+                    new Point(2, -1),
+                    new Point(2, -2)
+                }, new Point[4] { // Bottom Right
                     new Point(0, -1),
                     new Point(0, -2),
                     new Point(1, -1),
                     new Point(1, -2)
+                }, new Point[4] { // Top Left
+                    new Point(0, 0),
+                    new Point(0, -1),
+                    new Point(1, 0),
+                    new Point(1, -1)
                 }
-            }, new Vector(0, 1));
+            });
             new Tetrimino('I', Brushes.Cyan, new Vector[][]
             {
                 new Vector[4] {
                     new Vector(0, 0),
                     new Vector(-1, 0),
-                    new Vector(-1, -1),
-                    new Vector(0, -1)
+                    new Vector(-1, 1),
+                    new Vector(0, 1)
                 }, new Vector[4] {
                     new Vector(-1, 0),
                     new Vector(0, 0),
-                    new Vector(1, -1),
-                    new Vector(0, -1)
-                }, new Vector[4] {
-                    new Vector(2, 0),
-                    new Vector(0, 0),
-                    new Vector(-2, -1),
-                    new Vector(0, -1)
-                }, new Vector[4] {
-                    new Vector(-1, 0),
-                    new Vector(0, -1),
-                    new Vector(1, 0),
+                    new Vector(1, 1),
                     new Vector(0, 1)
                 }, new Vector[4] {
                     new Vector(2, 0),
-                    new Vector(0, 2),
+                    new Vector(0, 0),
+                    new Vector(-2, 1),
+                    new Vector(0, 1)
+                }, new Vector[4] {
+                    new Vector(-1, 0),
+                    new Vector(0, 1),
+                    new Vector(1, 0),
+                    new Vector(0, -1)
+                }, new Vector[4] {
+                    new Vector(2, 0),
+                    new Vector(0, -2),
                     new Vector(-2, 0),
-                    new Vector(0, -2)
+                    new Vector(0, 2)
                 }
             }, new Point[][]
             {
-                new Point[4] { // A
+                new Point[4] { // Right
                     new Point(1, -2),
                     new Point(2, -2),
                     new Point(3, -2),
                     new Point(4, -2)
-                }, new Point[4] { // D
-                    new Point(2, 0),
-                    new Point(2, -1),
-                    new Point(2, -2),
-                    new Point(2, -3)
-                }, new Point[4] { // C
-                    new Point(0, -2),
-                    new Point(1, -2),
-                    new Point(2, -2),
-                    new Point(3, -2)
-                }, new Point[4] { // B
+                }, new Point[4] { // Down
                     new Point(2, -1),
                     new Point(2, -2),
                     new Point(2, -3),
                     new Point(2, -4)
+                }, new Point[4] { // Left
+                    new Point(0, -2),
+                    new Point(1, -2),
+                    new Point(2, -2),
+                    new Point(3, -2)
+                }, new Point[4] { // Up
+                    new Point(2, 0),
+                    new Point(2, -1),
+                    new Point(2, -2),
+                    new Point(2, -3)
                 }
-            }, new Vector(0, 2), 2);
-            new Tetrimino('L', Brushes.Orange, defaultOffsets, new Point[][]
+            }, new Vector(-1, 2));
+            new Tetrimino('L', Brushes.Orange, DefaultOffsets, new Point[][]
             {
                 new Point[4] { // L on its left
                     new Point(0, -1),
@@ -163,7 +164,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('J', Brushes.Blue, defaultOffsets, new Point[][]
+            new Tetrimino('J', Brushes.Blue, DefaultOffsets, new Point[][]
             {
                 new Point[4] { // J on its right
                     new Point(0, 0),
@@ -187,7 +188,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('T', Brushes.Magenta, defaultOffsets, new Point[][]
+            new Tetrimino('T', Brushes.Magenta, DefaultOffsets, new Point[][]
             {
                 new Point[4] { // T pointing up
                     new Point(0, -1),
@@ -211,7 +212,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('S', Brushes.Lime, defaultOffsets, new Point[][]
+            new Tetrimino('S', Brushes.Lime, DefaultOffsets, new Point[][]
             {
                 new Point[4] { // S on top
                     new Point(0, -1),
@@ -235,7 +236,7 @@ namespace Tetris
                     new Point(1, -2)
                 }
             });
-            new Tetrimino('Z', Brushes.Red, defaultOffsets, new Point[][]
+            new Tetrimino('Z', Brushes.Red, DefaultOffsets, new Point[][]
             {
                 new Point[4] { // Z on top
                     new Point(0, 0),
@@ -348,7 +349,7 @@ namespace Tetris
             }
             currentStateNo = startState;
             Point[] points = ApplyPositionOffset(arena);
-            if (IsBlocked(arena, points))
+            if (points == null || IsBlocked(arena, points))
             {
                 return false;
             }
