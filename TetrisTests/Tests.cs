@@ -124,8 +124,8 @@ namespace TetrisTests
             StartGame();
             Tetrimino referencePiece = vModel.Session.CurrentPiece;
             Rotate(-1);
-            SetPiece();
             Point[] rotatedState = referencePiece.CurrentState;
+            SetPiece();
             // Shuffle back to the first piece
             SetPiece();
             Assert.AreNotEqual(rotatedState, vModel.Session.CurrentPiece.CurrentState);
@@ -146,7 +146,7 @@ namespace TetrisTests
 
             StartGame();
             Rotate(-1);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Move(-1);
             }
@@ -173,7 +173,7 @@ namespace TetrisTests
 
             StartGame();
             Rotate(-1);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Move(-1);
             }
@@ -200,7 +200,7 @@ namespace TetrisTests
         {
             Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[]
             {
-                Tetrimino.Types['O']
+                Tetrimino.Types['I']
             });
             vModel.Session = new Game(vModel.Arena, null, queue);
 

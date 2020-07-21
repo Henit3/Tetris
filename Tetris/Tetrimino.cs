@@ -28,30 +28,30 @@ namespace Tetris
         {
             Vector[][] defaultOffsets = new Vector[][]
             {
-                new Vector[4] {
+                new Vector[4] { // R => 2 is R - 2, which is R
                     new Vector(0, 0),
                     new Vector(0, 0),
-                    new Vector(0, 0),
+                    new Vector(0, 0), // (0, 0)
                     new Vector(0, 0)
                 }, new Vector[4] {
                     new Vector(0, 0),
                     new Vector(1, 0),
-                    new Vector(0, 0),
+                    new Vector(0, 0), // (1, 0)
                     new Vector(-1, 0)
                 }, new Vector[4] {
                     new Vector(0, 0),
                     new Vector(1, 1),
-                    new Vector(0, 0),
+                    new Vector(0, 0), // (1, 1)
                     new Vector(-1, 1)
                 }, new Vector[4] {
                     new Vector(0, 0),
                     new Vector(0, -2),
-                    new Vector(0, 0),
+                    new Vector(0, 0), // (0, -2)
                     new Vector(0, -2)
                 }, new Vector[4] {
                     new Vector(0, 0),
                     new Vector(1, -2),
-                    new Vector(0, 0),
+                    new Vector(0, 0), // (1, -2)
                     new Vector(-1, -2)
                 }
             };
@@ -66,16 +66,6 @@ namespace Tetris
             }, new Point[][]
             {
                 new Point[4] {
-                    new Point(0, 0),
-                    new Point(0, -1),
-                    new Point(1, 0),
-                    new Point(1, -1)
-                }, new Point[4] {
-                    new Point(0, -1),
-                    new Point(0, -2),
-                    new Point(1, -1),
-                    new Point(1, -2)
-                }, new Point[4] {
                     new Point(1, -1),
                     new Point(1, -2),
                     new Point(2, -1),
@@ -85,8 +75,18 @@ namespace Tetris
                     new Point(1, -1),
                     new Point(2, 0),
                     new Point(2, -1)
+                }, new Point[4] {
+                    new Point(0, 0),
+                    new Point(0, -1),
+                    new Point(1, 0),
+                    new Point(1, -1)
+                }, new Point[4] {
+                    new Point(0, -1),
+                    new Point(0, -2),
+                    new Point(1, -1),
+                    new Point(1, -2)
                 }
-            }, new Vector(1, 0));
+            }, new Vector(0, 1));
             new Tetrimino('I', Brushes.Cyan, new Vector[][]
             {
                 new Vector[4] {
@@ -117,28 +117,28 @@ namespace Tetris
                 }
             }, new Point[][]
             {
-                new Point[4] {
-                    new Point(0, -2),
-                    new Point(1, -2),
-                    new Point(2, -2),
-                    new Point(3, -2)
-                }, new Point[4] {
-                    new Point(3, -1),
-                    new Point(3, -2),
-                    new Point(3, -3),
-                    new Point(3, -4)
-                }, new Point[4] {
+                new Point[4] { // A
                     new Point(1, -2),
                     new Point(2, -2),
                     new Point(3, -2),
                     new Point(4, -2)
-                }, new Point[4] {
-                    new Point(1, 0),
-                    new Point(1, -1),
+                }, new Point[4] { // D
+                    new Point(2, 0),
+                    new Point(2, -1),
+                    new Point(2, -2),
+                    new Point(2, -3)
+                }, new Point[4] { // C
+                    new Point(0, -2),
                     new Point(1, -2),
-                    new Point(1, -3)
+                    new Point(2, -2),
+                    new Point(3, -2)
+                }, new Point[4] { // B
+                    new Point(2, -1),
+                    new Point(2, -2),
+                    new Point(2, -3),
+                    new Point(2, -4)
                 }
-            }, new Vector(0, 2));
+            }, new Vector(0, 2), 2);
             new Tetrimino('L', Brushes.Orange, defaultOffsets, new Point[][]
             {
                 new Point[4] { // L on its left
@@ -286,6 +286,10 @@ namespace Tetris
         /// Contains all the states a Tetrimino can have in each of its rotations.
         /// </summary>
         private readonly Point[][] states;
+        /// <summary>
+        /// The state the Tetrimino spawns in.
+        /// </summary>
+        private readonly int startState;
 
         /// <summary>
         /// Used to get the current state from the array of states above.
@@ -308,19 +312,21 @@ namespace Tetris
         /// </summary>
         /// <param name="letter">The letter shape (type) of the Tetrimino.</param>
         /// <param name="colour">The brush colour to be used when rendering it.</param>
-        /// <param name="_states">The states the Tetrimino cylces through in rotation.</param>
-        /// <param name="_shiftSpawn">Correction vector for spawning if one exists.</param>
+        /// <param name="states">The states the Tetrimino cylces through in rotation.</param>
+        /// <param name="shiftSpawn">Correction vector for spawning if one exists.</param>
+        /// <param name="startState">The state the Tetrimino should spawn in.</param>
         /// <remarks>
         /// Only called in the static constructor, with existing Tetriminos obtained using dictionary.
         /// </remarks>
-        public Tetrimino(char letter, Brush colour, Vector[][] _offsets, Point[][] _states,
-            Vector? _shiftSpawn = null)
+        public Tetrimino(char letter, Brush colour, Vector[][] offsets, Point[][] states,
+            Vector? shiftSpawn = null, int startState = 0)
         {
             Type = letter;
             Colour = colour;
-            offsets = _offsets;
-            states = _states;
-            shiftSpawn = _shiftSpawn;
+            this.offsets = offsets;
+            this.states = states;
+            this.shiftSpawn = shiftSpawn;
+            this.startState = startState;
             Position = null;
             Types.Add(letter, this);
         }
@@ -328,7 +334,8 @@ namespace Tetris
         /// <summary>
         /// Handles logic relating to the spawning of the Tetrimio.
         /// </summary>
-        /// <param name="spawnpoint"></param>
+        /// <param name="arena">The Grid the Tetrimino will spawn in.</param>
+        /// <param name="spawnpoint">The position to spawn the Tetrimino at.</param>
         /// <returns>
         /// Whether the spawn action can be completed successfully.
         /// </returns>
@@ -339,7 +346,7 @@ namespace Tetris
             {
                 Position += (Vector) shiftSpawn;
             }
-            currentStateNo = 0;
+            currentStateNo = startState;
             Point[] points = ApplyPositionOffset(arena);
             if (IsBlocked(arena, points))
             {
@@ -364,6 +371,7 @@ namespace Tetris
             // After a certain point, use it to stop that
             Vector positionOffset = new Vector(Position.Value.X, Position.Value.Y);
 
+            // Not using destStateNo because ApplyOffset uses curentStateNo
             int lastStateNo = currentStateNo;
             currentStateNo += rotation;
             currentStateNo -= states.Length * (int)Math.Floor(currentStateNo / (double)states.Length);
@@ -373,7 +381,8 @@ namespace Tetris
             {
                 // Apply offset and position, fail if out of bounds of the arena
                 // srcOffset - destOffset is the translation
-                Vector totalOffset = positionOffset + offset[currentStateNo] - offset[lastStateNo];
+                Vector kick = offset[lastStateNo] - offset[currentStateNo];
+                Vector totalOffset = positionOffset + kick;
                 Point[] points = ApplyOffset(arena, totalOffset);
                 if (points == null)
                 {
@@ -387,7 +396,7 @@ namespace Tetris
 
                 // A rotation has been found
                 CurrentOccupied = points;
-                Position += offset[currentStateNo] - offset[lastStateNo];
+                Position += kick;
                 return true;
             }
             
