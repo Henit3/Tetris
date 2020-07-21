@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -30,6 +31,8 @@ namespace Tetris
         /// </summary>
         public int Rows { get; }
 
+        public int ExtraRows { get; } = 1;
+
         /// <summary>
         /// The contents of the grid, as drawn rectangles.
         /// </summary>
@@ -46,10 +49,10 @@ namespace Tetris
             Rows = rows;
             Cols = cols;
 
-            Cells = new Rectangle[rows][];
-            for (int row = 0; row < Rows; row++)
+            Cells = new Rectangle[Rows + ExtraRows][];
+            for (int row = 0; row < Rows + ExtraRows; row++)
             {
-                Cells[row] = new Rectangle[cols];
+                Cells[row] = new Rectangle[Cols];
                 for (int col = 0; col < Cols; col++)
                 {
                     Cells[row][col] = new Rectangle()
@@ -58,6 +61,7 @@ namespace Tetris
                         Height = Size - 1,
                         Fill = DefaultFill,
                         Stroke = Brushes.Black,
+                        Visibility = (row >= Rows) ? Visibility.Hidden : Visibility.Visible,
                         StrokeThickness = 0,
                     };
 

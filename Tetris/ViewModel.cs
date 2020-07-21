@@ -89,6 +89,9 @@ namespace Tetris
                 case Key.Enter:
                     Session.Start();
                     break;
+                case Key.Oem5: // Pipe | Backslash
+                    Session.Start(true);
+                    break;
                 case Key.W:
                     Session.HardDrop();
                     break;
@@ -106,6 +109,9 @@ namespace Tetris
                     break;
                 case Key.Right:
                     Session.RotatePieceCW();
+                    break;
+                default:
+                    System.Windows.MessageBox.Show(key.ToString());
                     break;
             }
         }

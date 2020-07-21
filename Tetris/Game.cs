@@ -26,6 +26,8 @@ namespace Tetris
         /// </summary>
         private BackgroundWorker looper;
 
+        private bool terminateLooper = false;
+
         /// <summary>
         /// The maximum groundCounter before locking a piece.
         /// </summary>
@@ -118,12 +120,15 @@ namespace Tetris
             lastLocation = null;
             isPlayable = true;
 
+            // Clear the preset parameters in use unless using injected dependencies.
             if (clearPreset)
             {
                 arena.Reset();
                 pieceQueue.Clear();
             }
             GameLoop();
+
+            // Initialize looper thread if not single threaded, otherwise terminate it
             if (!singleThreaded)
             {
                 if (looper == null)
@@ -142,6 +147,11 @@ namespace Tetris
                 {
                     looper.RunWorkerAsync();
                 }
+            }
+            else if (looper != null)
+            {
+                terminateLooper = true;
+                looper.CancelAsync();
             }
         }
 
@@ -189,6 +199,11 @@ namespace Tetris
         /// </remarks>
         void LooperComplete(object sender, EventArgs e)
         {
+            if (terminateLooper)
+            {
+                terminateLooper = false;
+                return;
+            }
             if (isPlayable)
             {
                 looper.RunWorkerAsync();
@@ -268,8 +283,8 @@ namespace Tetris
             if (looper != null && looper.IsBusy)
             {
                 looper.CancelAsync();
-                GameLoop();
             }
+            GameLoop();
         }
 
         /// <summary>

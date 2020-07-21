@@ -524,7 +524,7 @@ namespace Tetris
             for (int i = 0; i < CurrentState.Length; i++)
             {
                 points[i] = CurrentState[i] + offset;
-                if (points[i].X >= arena.Cols || points[i].Y >= arena.Rows
+                if (points[i].X >= arena.Cols || points[i].Y >= arena.Rows + arena.ExtraRows
                     || points[i].X < 0 || points[i].Y < 0)
                 {
                     return null;
