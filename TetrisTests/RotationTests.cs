@@ -16,26 +16,24 @@ namespace TetrisTests
         {
             public string[] InputArena;
             public Point SpawnPoint;
-            public int Rotation;
             public string[] OutputArena;
 
-            public TestData(string[] inputArena, Point spawnPoint, int rotation, string[] outputArena)
+            public TestData(string[] inputArena, Point spawnPoint, string[] outputArena)
             {
                 InputArena = inputArena;
                 SpawnPoint = spawnPoint;
-                Rotation = rotation;
                 OutputArena = outputArena;
             }
         }
 
-        private void TestKick(TestData testCase, Tetrimino testPiece)
+        private void TestKick(TestData testCase, Tetrimino testPiece, int rotation)
         {
             Queue<Tetrimino> queue = new Queue<Tetrimino>(new Tetrimino[] { testPiece });
             SetUpArena(testCase.InputArena);
             vModel.Session = new Game(vModel.Arena, testCase.SpawnPoint, queue);
 
             StartGame();
-            Rotate(testCase.Rotation);
+            Rotate(rotation);
             SetPiece();
 
             AssertArenaState(testCase.OutputArena, testPiece.Colour);
@@ -146,6 +144,7 @@ namespace TetrisTests
             };
         }
 
+
         [Test, Apartment(ApartmentState.STA)]
         public void TestPieceRotationAllStates()
         {
@@ -203,6 +202,7 @@ namespace TetrisTests
             Assert.AreNotEqual(rotatedState, vModel.Session.CurrentPiece.CurrentState);
         }
 
+
         [Test, Apartment(ApartmentState.STA)]
         public void TestKicksDefault0()
         {
@@ -211,7 +211,7 @@ namespace TetrisTests
             {
                 new TestData // (0, 0)
                 (
-                    null, new Point(3, 2), 1, new string[]
+                    null, new Point(3, 2), new string[]
                     {
                         "    O     ",
                         "    O     ",
@@ -222,7 +222,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "     #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "   O     ",
                         "   O     ",
@@ -234,7 +234,7 @@ namespace TetrisTests
                     {
                         "    #     ",
                         "          "
-                    }, new Point(3, 1), 1, new string[]
+                    }, new Point(3, 1), new string[]
                     {
                         "   O      ",
                         "   O#     ",
@@ -249,7 +249,7 @@ namespace TetrisTests
                         "          ",
                         "          ",
                         "          "
-                    }, new Point(3, 4), 1, new string[]
+                    }, new Point(3, 4), new string[]
                     {
                         "   ##     ",
                         "          ",
@@ -266,7 +266,7 @@ namespace TetrisTests
                         "    #     ",
                         "          ",
                         "          "
-                    }, new Point(3, 4), 1, new string[]
+                    }, new Point(3, 4), new string[]
                     {
                         "   ##     ",
                         "          ",
@@ -279,7 +279,7 @@ namespace TetrisTests
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
             }
         }
 
@@ -292,7 +292,7 @@ namespace TetrisTests
             {
                 new TestData // (0, 0)
                 (
-                    null, new Point(3, 2), 1, new string[]
+                    null, new Point(3, 2), new string[]
                     {
                         "   OOO    ",
                         "   O      "
@@ -302,7 +302,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "   #      "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "    OOO   ",
                         "   #O     "
@@ -314,7 +314,7 @@ namespace TetrisTests
                         "     #    ",
                         "   #      ",
                         "          "
-                    }, new Point(3, 3), 1, new string[]
+                    }, new Point(3, 3), new string[]
                     {
                         "     #    ",
                         "   #OOO   ",
@@ -327,7 +327,7 @@ namespace TetrisTests
                         "   # #    ",
                         "   #      ",
                         "    #     "
-                    }, new Point(3, 3), 1, new string[]
+                    }, new Point(3, 3), new string[]
                     {
                         "   OOO    ",
                         "   O      ",
@@ -343,7 +343,7 @@ namespace TetrisTests
                         "     #    ",
                         "   #      ",
                         "    #     "
-                    }, new Point(3, 3), 1, new string[]
+                    }, new Point(3, 3), new string[]
                     {
                         "    OOO   ",
                         "   #O#    ",
@@ -356,7 +356,7 @@ namespace TetrisTests
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
             }
         }
 
@@ -369,7 +369,7 @@ namespace TetrisTests
             {
                 new TestData // (0, 0)
                 (
-                    null, new Point(3, 2), 1, new string[]
+                    null, new Point(3, 2), new string[]
                     {
                         "   OO     ",
                         "    O     ",
@@ -382,7 +382,7 @@ namespace TetrisTests
                         "   #      ",
                         "          ",
                         "          "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "   #OO    ",
                         "     O    ",
@@ -395,7 +395,7 @@ namespace TetrisTests
                         "   ##     ",
                         "          ",
                         "          "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "    OO    ",
                         "   ##O    ",
@@ -411,7 +411,7 @@ namespace TetrisTests
                         "          ",
                         "          ",
                         "          "
-                    }, new Point(3, 4), 1, new string[]
+                    }, new Point(3, 4), new string[]
                     {
                         "   ###    ",
                         "          ",
@@ -428,7 +428,7 @@ namespace TetrisTests
                         "          ",
                         "    #     ",
                         "          "
-                    }, new Point(3, 4), 1, new string[]
+                    }, new Point(3, 4), new string[]
                     {
                         "   ###    ",
                         "          ",
@@ -441,7 +441,7 @@ namespace TetrisTests
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
             }
         }
 
@@ -457,7 +457,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "     #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "     O    ",
                         "   OOO    ",
@@ -469,7 +469,7 @@ namespace TetrisTests
                     {
                         "     #    ",
                         "     #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "    O#    ",
                         "  OOO#    "
@@ -480,7 +480,7 @@ namespace TetrisTests
                     {
                         "     #    ",
                         "  #  #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "    O     ",
                         "  OOO#    ",
@@ -493,7 +493,7 @@ namespace TetrisTests
                         "     #   ",
                         "  #  #    ",
                         "  #  #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "     O    ",
                         "   OOO    ",
@@ -509,7 +509,7 @@ namespace TetrisTests
                         "  #  #    ",
                         "  #  #    ",
                         "  #  #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "    O     ",
                         "  OOO#    ",
@@ -522,20 +522,22 @@ namespace TetrisTests
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
             }
         }
+
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestKicksICW0()
         {
             Tetrimino testPiece = GetTetriminoRotated('I');
+            // Spawnpoint (0, 0) off left of I
 
             TestData[] testCases = new TestData[]
             {
                 new TestData // (0, 0)
                 (
-                    null, new Point(3, 2), 1, new string[]
+                    null, new Point(3, 2), new string[]
                     {
                         "     O    ",
                         "     O    ",
@@ -547,7 +549,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "     #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "   O     ",
                         "   O     ",
@@ -559,7 +561,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "   # #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "      O  ",
                         "      O  ",
@@ -575,7 +577,7 @@ namespace TetrisTests
                         "          ",
                         "     ##   ",
                         "          "
-                    }, new Point(3, 3), 1, new string[]
+                    }, new Point(3, 3), new string[]
                     {
                         "   #      ",
                         "   O      ",
@@ -588,20 +590,20 @@ namespace TetrisTests
                     new string[]
                     {
                         "   # ##   "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "      O   ",
-                        "      O  ",
-                        "      O  ",
-                        "      O  ",
-                        "   # ##  "
+                        "      O   ",
+                        "      O   ",
+                        "      O   ",
+                        "   # ##   "
                     }
                 )
             };
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
             }
         }
 
@@ -609,6 +611,7 @@ namespace TetrisTests
         public void TestKicksICWR()
         {
             Tetrimino testPiece = GetTetriminoRotated('I', 1);
+            // Spawnpoint (-1, 2) off bottom of I
 
             TestData[] testCases = new TestData[]
             {
@@ -617,7 +620,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "   #      "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "  OOOO    ",
                         "   #      "
@@ -628,7 +631,7 @@ namespace TetrisTests
                     {
                         "     #    ",
                         "   #      "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         " OOOO#    ",
                         "   #      "
@@ -639,7 +642,7 @@ namespace TetrisTests
                     {
                         "   #      ",
                         "     #    "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "   #OOOO  ",
                         "     #    "
@@ -651,7 +654,7 @@ namespace TetrisTests
                         "   #      ",
                         "   # #    ",
                         "          "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         " OOOO     ",
                         "   #      ",
@@ -666,7 +669,7 @@ namespace TetrisTests
                         "   #      ",
                         "   # #    ",
                         "          "
-                    }, new Point(3, 2), 1, new string[]
+                    }, new Point(3, 2), new string[]
                     {
                         "   #      ",
                         "   #      ",
@@ -678,7 +681,7 @@ namespace TetrisTests
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
             }
         }
 
@@ -686,12 +689,13 @@ namespace TetrisTests
         public void TestKicksICW2()
         {
             Tetrimino testPiece = GetTetriminoRotated('I', 2);
+            // Spawnpoint (1, 0) off left of I
 
             TestData[] testCases = new TestData[]
             {
                 new TestData // (0, 0)
                 (
-                    null, new Point(3, 1), 1, new string[]
+                    null, new Point(3, 1), new string[]
                     {
                         "   O      ",
                         "   O      ",
@@ -703,7 +707,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "   #      "
-                    }, new Point(3, 1), 1, new string[]
+                    }, new Point(3, 1), new string[]
                     {
                         "     O    ",
                         "     O    ",
@@ -715,7 +719,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "   # #    "
-                    }, new Point(3, 1), 1, new string[]
+                    }, new Point(3, 1), new string[]
                     {
                         "  O       ",
                         "  O       ",
@@ -727,7 +731,7 @@ namespace TetrisTests
                     new string[]
                     {
                         "  ## #    "
-                    }, new Point(3, 1), 1, new string[]
+                    }, new Point(3, 1), new string[]
                     {
                         "     O    ",
                         "     O    ",
@@ -744,7 +748,7 @@ namespace TetrisTests
                         "   # #    ",
                         "          ",
                         "          "
-                    }, new Point(3, 3), 1, new string[]
+                    }, new Point(3, 3), new string[]
                     {
                         "  #  #    ",
                         "  O       ",
@@ -757,7 +761,7 @@ namespace TetrisTests
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
             }
         }
 
@@ -765,6 +769,7 @@ namespace TetrisTests
         public void TestKicksICWL()
         {
             Tetrimino testPiece = GetTetriminoRotated('I', 3);
+            // Spawnpoint (-1, 1) off bottom of I
 
             TestData[] testCases = new TestData[]
             {
@@ -774,7 +779,7 @@ namespace TetrisTests
                     {
                         "     #    ",
                         "          "
-                    }, new Point(2, 1), 1, new string[]
+                    }, new Point(2, 1), new string[]
                     {
                         "  OOOO    ",
                         "     #    ",
@@ -787,7 +792,7 @@ namespace TetrisTests
                         "  #       ",
                         "     #    ",
                         "          "
-                    }, new Point(2, 1), 1, new string[]
+                    }, new Point(2, 1), new string[]
                     {
                         "  #OOOO   ",
                         "     #    ",
@@ -800,7 +805,7 @@ namespace TetrisTests
                         "    #     ",
                         " #        ",
                         "          "
-                    }, new Point(2, 1), 1, new string[]
+                    }, new Point(2, 1), new string[]
                     {
                         "OOOO#     ",
                         " #        ",
@@ -813,7 +818,7 @@ namespace TetrisTests
                         "  # #     ",
                         " #        ",
                         "          "
-                    }, new Point(2, 1), 1, new string[]
+                    }, new Point(2, 1), new string[]
                     {
                         "  # #     ",
                         " #        ",
@@ -826,7 +831,7 @@ namespace TetrisTests
                         "  # #     ",
                         " #        ",
                         "    #     "
-                    }, new Point(2, 1), 1, new string[]
+                    }, new Point(2, 1), new string[]
                     {
                         "OOOO      ",
                         "  # #     ",
@@ -838,7 +843,318 @@ namespace TetrisTests
 
             foreach (TestData testCase in testCases)
             {
-                TestKick(testCase, testPiece);
+                TestKick(testCase, testPiece, 1);
+            }
+        }
+
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksIACW0()
+        {
+            Tetrimino testPiece = GetTetriminoRotated('I');
+            // Spawnpoint (0, 0) off left of I
+
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    null, new Point(3, 2), new string[]
+                    {
+                        "    O     ",
+                        "    O     ",
+                        "    O     ",
+                        "    O     "
+                    }
+                ), new TestData // (-1, 0)
+                (
+                    new string[]
+                    {
+                        "    #     "
+                    }, new Point(3, 2), new string[]
+                    {
+                        "   O     ",
+                        "   O     ",
+                        "   O     ",
+                        "   O#    "
+                    }
+                ), new TestData // (2, 0)
+                (
+                    new string[]
+                    {
+                        "   ##     "
+                    }, new Point(3, 2), new string[]
+                    {
+                        "      O  ",
+                        "      O  ",
+                        "      O  ",
+                        "   ## O  "
+                    }
+                ), new TestData // (-1, 2)
+                (
+                    null, new Point(3, 0), new string[]
+                    {
+                        "   O      ",
+                        "   O      ",
+                        "   O      ",
+                        "   O      "
+                    }
+                ), new TestData // (2, -1)
+                (
+                    new string[]
+                    {
+                        "   ## #   ",
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          "
+                    }, new Point(3, 3), new string[]
+                    {
+                        "   ## #   ",
+                        "      O   ",
+                        "      O   ",
+                        "      O   ",
+                        "      O   "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase, testPiece, -1);
+            }
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksIACWL()
+        {
+            Tetrimino testPiece = GetTetriminoRotated('I', 3);
+            // Spawnpoint (-1, 1) off bottom of I
+
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    new string[]
+                    {
+                        "   #      "
+                    }, new Point(3, 1), new string[]
+                    {
+                        "   OOOO   ",
+                        "   #      "
+                    }
+                ), new TestData // (-2, 0)
+                (
+                    new string[]
+                    {
+                        "     #    ",
+                        "   #      "
+                    }, new Point(3, 1), new string[]
+                    {
+                        " OOOO#    ",
+                        "   #      "
+                    }
+                ), new TestData // (1, 0)
+                (
+                    new string[]
+                    {
+                        "   #      ",
+                        "     #    "
+                    }, new Point(3, 1), new string[]
+                    {
+                        "   #OOOO  ",
+                        "     #    "
+                    }
+                ), new TestData // (-2, -1)
+                (
+                    new string[]
+                    {
+                        "   # #    ",
+                        "          "
+                    }, new Point(3, 1), new string[]
+                    {
+                        "   # #    ",
+                        " OOOO     "
+                    }
+                ), new TestData // (1, 2)
+                (
+                    new string[]
+                    {
+                        "   # #    ",
+                        "   # #    ",
+                        "   #      "
+                    }, new Point(3, 1), new string[]
+                    {
+                        "    OOOO  ",
+                        "   # #    ",
+                        "   # #    ",
+                        "   #      "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase, testPiece, -1);
+            }
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksIACW2()
+        {
+            Tetrimino testPiece = GetTetriminoRotated('I', 2);
+            // Spawnpoint (1, 0) off left of I
+
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    null, new Point(3, 1), new string[]
+                    {
+                        "    O     ",
+                        "    O     ",
+                        "    O     ",
+                        "    O     "
+                    }
+                ), new TestData // (1, 0)
+                (
+                    new string[]
+                    {
+                        "    #     "
+                    }, new Point(3, 1), new string[]
+                    {
+                        "     O    ",
+                        "     O    ",
+                        "     O    ",
+                        "    #O    "
+                    }
+                ), new TestData // (-2, 0)
+                (
+                    new string[]
+                    {
+                        "    ##    "
+                    }, new Point(3, 1), new string[]
+                    {
+                        "  O       ",
+                        "  O       ",
+                        "  O       ",
+                        "  O ##    "
+                    }
+                ), new TestData // (1, -2)
+                (
+                    new string[]
+                    {
+                        "  # ##    ",
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          "
+                    }, new Point(3, 3), new string[]
+                    {
+                        "  # ##    ",
+                        "     O    ",
+                        "     O    ",
+                        "     O    ",
+                        "     O    "
+                    }
+                ), new TestData // (-2, 1)
+                (
+                    null, new Point(3, 0), new string[]
+                    {
+                        "  O       ",
+                        "  O       ",
+                        "  O       ",
+                        "  O       "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase, testPiece, -1);
+            }
+        }
+
+        [Test, Apartment(ApartmentState.STA)]
+        public void TestKicksIACWR()
+        {
+            Tetrimino testPiece = GetTetriminoRotated('I', 1);
+            // Spawnpoint (-1, 2) off bottom of I
+
+            TestData[] testCases = new TestData[]
+            {
+                new TestData // (0, 0)
+                (
+                    new string[]
+                    {
+                        "   # #    ",
+                        "          "
+                    }, new Point(3, 2), new string[]
+                    {
+                        "  OOOO    ",
+                        "   # #    ",
+                        "          "
+                    }
+                ), new TestData // (2, 0)
+                (
+                    new string[]
+                    {
+                        "   #      ",
+                        "   # #    ",
+                        "          "
+                    }, new Point(3, 2), new string[]
+                    {
+                        "   #OOOO  ",
+                        "   # #    ",
+                        "          "
+                    }
+                ), new TestData // (-1, 0)
+                (
+                    new string[]
+                    {
+                        "     #    ",
+                        "   # #    ",
+                        "          "
+                    }, new Point(3, 2), new string[]
+                    {
+                        " OOOO#    ",
+                        "   # #    ",
+                        "          "
+                    }
+                ), new TestData // (2, 1)
+                (
+                    new string[]
+                    {
+                        "   # #    ",
+                        "   # #    ",
+                        "          "
+                    }, new Point(3, 2), new string[]
+                    {
+                        "    OOOO  ",
+                        "   # #    ",
+                        "   # #    ",
+                        "          "
+                    }
+                ), new TestData // (-1, -2)
+                (
+                    new string[]
+                    {
+                        "     #    ",
+                        "   # #    ",
+                        "   # #    ",
+                        "          "
+                    }, new Point(3, 2), new string[]
+                    {
+                        "     #    ",
+                        "   # #    ",
+                        "   # #    ",
+                        " OOOO     "
+                    }
+                )
+            };
+
+            foreach (TestData testCase in testCases)
+            {
+                TestKick(testCase, testPiece, -1);
             }
         }
     }
