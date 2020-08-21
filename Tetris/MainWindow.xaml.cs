@@ -13,7 +13,7 @@ namespace Tetris
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ViewModel();
+            DataContext = new ViewModel(this);
         }
     }
 }

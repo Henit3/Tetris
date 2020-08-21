@@ -6,16 +6,16 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Tetris"
         mc:Ignorable="d"
-        Title="MainWindow" Height="466" Width="500">
+        Title="MainWindow" Height="500" Width="600">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="KeyDown" >
-            <i:CallMethodAction MethodName="KeyDown" TargetObject="{Binding}" />
+            <i:CallMethodAction MethodName="KeyDownHandler" TargetObject="{Binding}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="LostKeyboardFocus" >
-            <i:CallMethodAction MethodName="LostFocus" TargetObject="{Binding}" />
+            <i:CallMethodAction MethodName="LostFocusHandler" TargetObject="{Binding}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="GotKeyboardFocus" >
-            <i:CallMethodAction MethodName="GotFocus" TargetObject="{Binding}" />
+            <i:CallMethodAction MethodName="GotFocusHandler" TargetObject="{Binding}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Height="450">
@@ -23,33 +23,14 @@
             <ColumnDefinition Width="250*"/>
             <ColumnDefinition Width="250*"/>
         </Grid.ColumnDefinitions>
-        <Canvas Margin="25,25,25,25" Background="LightGray">
-            <Rectangle
-                Width="20"
-                Height="20"
-                Fill="Red"
-                Canvas.Left="0"
-                Canvas.Top="380" />
-            <Rectangle
-                Width="20"
-                Height="20"
-                Fill="Green"
-                Canvas.Left="20"
-                Canvas.Top="380" />
-            <Rectangle
-                Width="20"
-                Height="20"
-                Fill="Blue"
-                Canvas.Left="40"
-                Canvas.Top="380" />
-        </Canvas>
+        <Canvas Margin="25,25,25,25" Width="200" Background="SlateGray" Name="MyCanvas"></Canvas>
         <Label Grid.Column="1"
                Background="#FFF6FF32"
                BorderThickness="1,1,1,1" BorderBrush="Black"
                Height="30" Width="150"
                Margin="50,100,50,320"
-               Content="{Binding Output}"
-               IsHitTestVisible="False" IsEnabled="{Binding OutEnabled}"
+               Content="Tetris"
+               IsHitTestVisible="False" IsEnabled="{Binding IsActive}"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
     </Grid>
 </Window>

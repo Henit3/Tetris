@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keydown_23',['KeyDown',['../class_tetris_1_1_view_model.html#a0a4558386e9d7e41810427463faf5c31',1,'Tetris::ViewModel']]]
+  ['clean_69',['Clean',['../class_tetris_1_1_grid.html#a044989ceb2e09b754b06fe953a3375e4',1,'Tetris::Grid']]]
 ];
