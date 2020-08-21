@@ -8,7 +8,7 @@ using Tetris;
 
 namespace TetrisTests
 {
-    public class MovementTests: Tests
+    public class MovementTests : GameTests
     {
         [Test, Apartment(ApartmentState.STA)]
         public void TestPieceMovement()

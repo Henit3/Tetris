@@ -10,7 +10,7 @@ using Tetris;
 
 namespace TetrisTests
 {
-    public class RotationTests : Tests
+    public class RotationTests : GameTests
     {
         private struct TestData
         {

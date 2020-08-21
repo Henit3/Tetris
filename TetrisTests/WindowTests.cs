@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace TetrisTests
 {
-    public class WindowTests: Tests
+    public class WindowTests : GameTests
     {
         [Test, Apartment(ApartmentState.STA)]
         public void TestWindowInFocus()

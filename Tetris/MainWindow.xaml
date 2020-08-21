@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Tetris"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="600">
+        Title="MainWindow" Height="525" Width="600">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="KeyDown" >
             <i:CallMethodAction MethodName="KeyDownHandler" TargetObject="{Binding}" />
@@ -18,19 +18,8 @@
             <i:CallMethodAction MethodName="GotFocusHandler" TargetObject="{Binding}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Height="450">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250*"/>
-            <ColumnDefinition Width="250*"/>
-        </Grid.ColumnDefinitions>
-        <Canvas Margin="25,25,25,25" Width="200" Background="SlateGray" Name="MyCanvas"></Canvas>
-        <Label Grid.Column="1"
-               Background="#FFF6FF32"
-               BorderThickness="1,1,1,1" BorderBrush="Black"
-               Height="30" Width="150"
-               Margin="50,100,50,320"
-               Content="Tetris"
-               IsHitTestVisible="False" IsEnabled="{Binding IsActive}"
-               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-    </Grid>
+    <local:NoNavFrame x:Name="ContentFrame" x:FieldModifier="public" Content="Frame" 
+           HorizontalAlignment="Center" VerticalAlignment="Center"
+           NavigationUIVisibility="Hidden"
+           Height="500" Width="600"/>
 </Window>

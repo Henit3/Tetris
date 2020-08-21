@@ -172,11 +172,12 @@ namespace Tetris
         /// </remarks>
         void LooperExecute(object sender, DoWorkEventArgs e)
         {
+            const int frameDelay = 50;
             while (isPlayable)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 1000 / frameDelay; i++)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(frameDelay);
                     if (looper.CancellationPending)
                     {
                         return;

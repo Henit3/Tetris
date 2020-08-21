@@ -6,7 +6,7 @@ using Tetris;
 
 namespace TetrisTests
 {
-    public class GridTests: Tests
+    public class GridTests : GameTests
     {
         [Test, Apartment(ApartmentState.STA)]
         public void TestLineClearSingle()

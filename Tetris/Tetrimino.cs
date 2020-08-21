@@ -346,7 +346,7 @@ namespace Tetris
             Position = spawnpoint;
             if (shiftSpawn != null)
             {
-                Position += (Vector) shiftSpawn;
+                Position += (Vector)shiftSpawn;
             }
             currentStateNo = startState;
             Point[] points = ApplyPositionOffset(arena);
@@ -401,7 +401,7 @@ namespace Tetris
                 Position += kick;
                 return true;
             }
-            
+
             // If failed to rotate, reset the state number
             currentStateNo = lastStateNo;
             return false;
@@ -511,7 +511,7 @@ namespace Tetris
                         }
                     }
                     distances[i]++;
-                }    
+                }
             }
             int minDistance = distances.Min() - 1;
             CurrentOccupied = ApplyOffset(arena,
